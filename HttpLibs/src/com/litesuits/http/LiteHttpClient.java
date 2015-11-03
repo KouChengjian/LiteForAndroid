@@ -1,6 +1,7 @@
 package com.litesuits.http;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.litesuits.http.data.NameValuePair;
 import com.litesuits.http.data.StatisticsInfo;
@@ -18,7 +19,6 @@ import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.request.param.HttpParam;
 import com.litesuits.http.response.InternalResponse;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.utils.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -257,7 +257,7 @@ public abstract class LiteHttpClient {
 						if (statisticsInfo == null)
 							statisticsInfo = new StatisticsInfo();
 						statisticsInfo.addConnectTime(time);
-						if (Log.isPrint)
+						if (true)
 							Log.d(TAG,
 									"http statistics : connect " + connect
 											+ "ms, read " + read + "ms, total "
@@ -272,7 +272,7 @@ public abstract class LiteHttpClient {
 							len = headLen > 0 ? headLen : readLen;
 						}
 						statisticsInfo.addDataLength(len);
-						if (Log.isPrint)
+						if (true)
 							Log.d(TAG,
 									"http statistics : len in header "
 											+ headLen + " B, len of readed "

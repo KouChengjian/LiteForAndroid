@@ -9,6 +9,7 @@ import java.util.concurrent.FutureTask;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 /**
  * 异步执行

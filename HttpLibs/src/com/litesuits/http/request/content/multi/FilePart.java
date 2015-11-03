@@ -1,7 +1,6 @@
 package com.litesuits.http.request.content.multi;
 
 import com.litesuits.http.data.Consts;
-import com.litesuits.http.utils.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,8 +37,8 @@ public class FilePart extends InputStreamPart {
 
     public long getTotalLength() {
         long len = file.length();
-        if (Log.isPrint) Log.v(TAG, TAG + " 内容长度header ： " + header.length + " ,body: " + len + " ," +
-                "换行：" + CR_LF.length);
+//        if (Log.isPrint) Log.v(TAG, TAG + " 内容长度header ： " + header.length + " ,body: " + len + " ," +
+//                "换行：" + CR_LF.length);
         return header.length + len + CR_LF.length;
     }
 }

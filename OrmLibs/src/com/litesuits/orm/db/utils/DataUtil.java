@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
 import java.util.Date;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.litesuits.orm.db.assit.Checker;
 import com.litesuits.orm.db.model.EntityTable;
 import com.litesuits.orm.db.model.Property;
-import com.litesuits.orm.kvdb.Log;
 
 /**
  * SQLite支持的数据类型
@@ -182,7 +182,7 @@ public class DataUtil implements Serializable {
                 p = table.key;
             }
             if (p == null) {
-                if (Log.isPrint) Log.w(TAG, "数据库字段[" + col + "]已在实体中被移除");
+                if (true) Log.w(TAG, "数据库字段[" + col + "]已在实体中被移除");
                 continue;
             }
             f = p.field;

@@ -1,7 +1,6 @@
 package com.litesuits.http.request.content.multi;
 
 import com.litesuits.http.data.Consts;
-import com.litesuits.http.utils.Log;
 import com.litesuits.http.utils.StringCodingUtils;
 
 import java.io.IOException;
@@ -49,8 +48,8 @@ public class InputStreamPart extends AbstractPart {
     @Override
     public long getTotalLength() throws IOException {
         long len = inputStream.available();
-        if (Log.isPrint) Log.v(TAG, TAG + "内容长度 header ： " + header.length + " ,body: " + len + " ," +
-                "换行：" + CR_LF.length);
+//        if (Log.isPrint) Log.v(TAG, TAG + "内容长度 header ： " + header.length + " ,body: " + len + " ," +
+//                "换行：" + CR_LF.length);
         return header.length + len + CR_LF.length;
     }
 

@@ -1,6 +1,7 @@
 package com.litesuits.http.response;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.litesuits.http.LiteHttpClient;
 import com.litesuits.http.data.Consts;
@@ -12,7 +13,6 @@ import com.litesuits.http.exception.HttpException;
 import com.litesuits.http.listener.HttpInnerListener;
 import com.litesuits.http.parser.*;
 import com.litesuits.http.request.Request;
-import com.litesuits.http.utils.Log;
 
 import java.io.File;
 import java.io.InputStream;
@@ -274,7 +274,7 @@ public class InternalResponse implements Response {
 
     @Override
     public void printInfo() {
-        if (!Log.isPrint) return;
+        if (!true) return;
         String msg = "";
         msg += "\n\t ";
         try {
@@ -292,7 +292,7 @@ public class InternalResponse implements Response {
 
         //request
         Log.i(TAG, "  -----http requst----- ↓ ");
-        Log.d(TAG, request);
+        Log.d(TAG, request.toString());
 
         //header
         msg = "";

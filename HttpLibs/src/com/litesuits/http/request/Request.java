@@ -1,6 +1,7 @@
 package com.litesuits.http.request;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.litesuits.http.LiteHttpClient;
 import com.litesuits.http.data.Consts;
@@ -15,7 +16,6 @@ import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.request.param.HttpParam;
 import com.litesuits.http.request.query.AbstractQueryBuilder;
 import com.litesuits.http.request.query.JsonQueryBuilder;
-import com.litesuits.http.utils.Log;
 import com.litesuits.http.utils.UriUtil;
 
 import java.io.UnsupportedEncodingException;
@@ -240,11 +240,11 @@ public class Request {
                         builder.appendQueryParameter(key, value);
                     }
                 }
-                if (Log.isPrint) {
+                if (true) {
                     Log.d(TAG, "param url origin: " + uri);
                 }
                 uri = builder.build();
-                if (Log.isPrint) {
+                if (true) {
                     Log.d(TAG, "param url encode: " + uri);
                 }
                 sb.append(uri);

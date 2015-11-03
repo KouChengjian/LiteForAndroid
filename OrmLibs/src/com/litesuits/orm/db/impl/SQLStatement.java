@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Build;
+import android.util.Log;
 
 import com.litesuits.orm.db.TableManager;
 import com.litesuits.orm.db.assit.Checker;
@@ -28,7 +29,6 @@ import com.litesuits.orm.db.model.Property;
 import com.litesuits.orm.db.utils.ClassUtil;
 import com.litesuits.orm.db.utils.DataUtil;
 import com.litesuits.orm.db.utils.FieldUtil;
-import com.litesuits.orm.kvdb.Log;
 
 /**
  * sql语句构造与执行
@@ -127,7 +127,7 @@ public class SQLStatement implements Serializable {
         }
         long rowID = mStatement.executeInsert();
         realease();
-        if (Log.isPrint) {
+        if (true) {
             Log.i(TAG, "SQL Execute Insert --> " + rowID);
         }
         if (entity != null) {
@@ -164,7 +164,7 @@ public class SQLStatement implements Serializable {
         } finally {
             realease();
         }
-        if (Log.isPrint) {
+        if (true) {
             Log.i(TAG, "SQL Execute Insert --> " + rowID);
         }
         if (entity != null) {
@@ -179,7 +179,7 @@ public class SQLStatement implements Serializable {
     public int execInsertCollection(SQLiteDatabase db, Collection<?> list, TableManager tableManager) {
         printSQL();
         db.beginTransaction();
-        if (Log.isPrint) {
+        if (true) {
             Log.d(TAG, "----> BeginTransaction[insert col]");
         }
         try {
@@ -214,16 +214,16 @@ public class SQLStatement implements Serializable {
                 mapRelationToDb(obj, true, tableCheck, db, tableManager);
                 tableCheck = false;
             }
-            if (Log.isPrint) {
+            if (true) {
                 Log.i(TAG, "Exec insert " + list.size() + " rows , SQL: " + sql);
             }
             db.setTransactionSuccessful();
-            if (Log.isPrint) {
+            if (true) {
                 Log.d(TAG, "----> BeginTransaction[insert col] Successful");
             }
             return list.size();
         } catch (Exception e) {
-            if (Log.isPrint) {
+            if (true) {
                 Log.e(TAG, "----> BeginTransaction[insert col] Failling");
             }
             e.printStackTrace();
@@ -252,7 +252,7 @@ public class SQLStatement implements Serializable {
             rows = mStatement.executeUpdateDelete();
         }
         realease();
-        if (Log.isPrint) {
+        if (true) {
             Log.i(TAG, "SQL Execute update --> " + rows);
         }
         return rows;
@@ -276,7 +276,7 @@ public class SQLStatement implements Serializable {
             rows = mStatement.executeUpdateDelete();
         }
         realease();
-        if (Log.isPrint) {
+        if (true) {
             Log.i(TAG, "SQL Execute update --> " + rows);
         }
         if (entity != null) {
@@ -292,7 +292,7 @@ public class SQLStatement implements Serializable {
                                     TableManager tableManager) {
         printSQL();
         db.beginTransaction();
-        if (Log.isPrint) {
+        if (true) {
             Log.d(TAG, "----> BeginTransaction[update col]");
         }
         try {
@@ -337,16 +337,16 @@ public class SQLStatement implements Serializable {
                 mapRelationToDb(obj, true, tableCheck, db, tableManager);
                 tableCheck = false;
             }
-            if (Log.isPrint) {
+            if (true) {
                 Log.i(TAG, "Exec update " + list.size() + " rows , SQL: " + sql);
             }
             db.setTransactionSuccessful();
-            if (Log.isPrint) {
+            if (true) {
                 Log.d(TAG, "----> BeginTransaction[update col] Successful");
             }
             return list.size();
         } catch (Exception e) {
-            if (Log.isPrint) {
+            if (true) {
                 Log.e(TAG, "----> BeginTransaction[update col] Failling");
             }
             e.printStackTrace();
@@ -384,7 +384,7 @@ public class SQLStatement implements Serializable {
         } else {
             nums = mStatement.executeUpdateDelete();
         }
-        if (Log.isPrint) {
+        if (true) {
             Log.v(TAG, "SQL Execute Delete --> " + nums);
         }
         realease();
@@ -416,7 +416,7 @@ public class SQLStatement implements Serializable {
         } else {
             nums = mStatement.executeUpdateDelete();
         }
-        if (Log.isPrint) {
+        if (true) {
             Log.v(TAG, "SQL Execute Delete --> " + nums);
         }
         realease();
@@ -433,7 +433,7 @@ public class SQLStatement implements Serializable {
                     return true;
                 }
             });
-            if (Log.isPrint) {
+            if (true) {
                 Log.i(TAG, "Exec delete collection mapping: " + ((suc != null && suc) ? "成功" : "失败"));
             }
         } else {
@@ -479,7 +479,7 @@ public class SQLStatement implements Serializable {
                 }
             }
             count = mStatement.simpleQueryForLong();
-            if (Log.isPrint) {
+            if (true) {
                 Log.i(TAG, "SQL Execute queryForLong --> " + count);
             }
         } catch (Exception e) {
@@ -588,7 +588,7 @@ public class SQLStatement implements Serializable {
     }
 
     private void printSQL() {
-        if (Log.isPrint) {
+        if (true) {
             Log.d(TAG, "SQL Execute: [" + sql + "] ARGS--> " + Arrays.toString(bindArgs));
         }
     }

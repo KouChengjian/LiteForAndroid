@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.util.Log;
 
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.DataBaseConfig;
@@ -31,7 +32,6 @@ import com.litesuits.orm.db.model.MapProperty;
 import com.litesuits.orm.db.model.Relation;
 import com.litesuits.orm.db.utils.ClassUtil;
 import com.litesuits.orm.db.utils.FieldUtil;
-import com.litesuits.orm.kvdb.Log;
 
 /**
  * 数据SQLite操作实现
@@ -291,7 +291,7 @@ public class DataBaseSQLiteImpl extends SQLiteClosable implements DataBase {
                             for (Object entity : collection) {
                                 SQLBuilder.buildDeleteSql(entity).execDeleteWithMapping(db, entity, mTableManager);
                             }
-                            if (Log.isPrint) {
+                            if (true) {
                                 Log.i(TAG, "Exec delete(no primarykey) ：" + collection.size());
                             }
                             return collection.size();
@@ -343,7 +343,7 @@ public class DataBaseSQLiteImpl extends SQLiteClosable implements DataBase {
                         if (mapTable.delOldRelationSQL != null) {
                             for (SQLStatement st : mapTable.delOldRelationSQL) {
                                 long rowId = st.execDelete(db);
-                                if (Log.isPrint) {
+                                if (true) {
                                     Log.i(TAG, "Exec delete mapping success, nums: " + rowId);
                                 }
                             }

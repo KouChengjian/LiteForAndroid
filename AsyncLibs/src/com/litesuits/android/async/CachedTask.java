@@ -1,6 +1,7 @@
 package com.litesuits.android.async;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,11 +71,11 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
             if (System.currentTimeMillis() - lastTime >= expiredTime) {
                 res = doConnectNetwork(params);
                 if (res != null) {
-                    if (Log.isPrint) Log.d(TAG, "doConnectNetwork: sucess");
+                    if (true) Log.d(TAG, "doConnectNetwork: sucess");
                     cachedTimeMap.put(key, System.currentTimeMillis());
                     saveResultToCache(res);
                 } else {
-                    if (Log.isPrint) Log.d(TAG, "doConnectNetwork: false");
+                    if (true) Log.d(TAG, "doConnectNetwork: false");
                     res = getResultFromCache();
                 }
             } else {
@@ -82,11 +83,11 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
                 if (res == null) {
                     res = doConnectNetwork(params);
                     if (res != null) {
-                        if (Log.isPrint) Log.d(TAG, "doConnectNetwork: sucess");
+                        if (true) Log.d(TAG, "doConnectNetwork: sucess");
                         cachedTimeMap.put(key, System.currentTimeMillis());
                         saveResultToCache(res);
                     } else {
-                        if (Log.isPrint) Log.d(TAG, "doConnectNetwork: false");
+                        if (true) Log.d(TAG, "doConnectNetwork: false");
                     }
                 }
             }
@@ -104,7 +105,7 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
 			Object obj = ois.readObject();
 
 			if (obj != null) {
-				if (Log.isPrint) Log.i(TAG, key+ " read from cache: "+obj);
+				if (true) Log.i(TAG, key+ " read from cache: "+obj);
 				return (Result) obj;
 			}
 		} catch (Exception e) {
@@ -116,7 +117,7 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
 				e.printStackTrace();
 			}
 		}
-		if (Log.isPrint) Log.e(TAG, "read ResultFromCache: fail ");
+		if (true) Log.e(TAG, "read ResultFromCache: fail ");
 		return null;
 	}
 
@@ -127,7 +128,7 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
 			if (!dir.exists()) dir.mkdirs();
 			oos = new ObjectOutputStream(new FileOutputStream(new File(dir, key)));
 			oos.writeObject(res);
-			if (Log.isPrint) Log.i(TAG, key +"  saveto cache: "+res);
+			if (true) Log.i(TAG, key +"  saveto cache: "+res);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,7 +139,7 @@ public abstract class CachedTask<Params, Progress, Result extends Serializable>
 				e.printStackTrace();
 			}
 		}
-		if (Log.isPrint) Log.e(TAG, "save Result To Cache: fail");
+		if (true) Log.e(TAG, "save Result To Cache: fail");
 		return false;
 	}
 }

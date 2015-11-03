@@ -1,6 +1,7 @@
 package com.litesuits.http.impl.apache;
 
 import android.os.NetworkOnMainThreadException;
+import android.util.Log;
 
 import com.litesuits.http.LiteHttpClient;
 import com.litesuits.http.data.Charsets;
@@ -20,7 +21,6 @@ import com.litesuits.http.request.param.HttpMethod;
 import com.litesuits.http.request.param.HttpParam;
 import com.litesuits.http.response.InternalResponse;
 import com.litesuits.http.response.Response;
-import com.litesuits.http.utils.Log;
 
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
@@ -405,7 +405,7 @@ public class ApacheHttpClient extends LiteHttpClient {
                 if (!Thread.currentThread().isInterrupted()) {
                     innerResponse.setTryTimes(++times);
                     // start
-                    if (Log.isPrint) Log.v(TAG, "lite http request: " + req.getURI());
+                    if (true) Log.v(TAG, "lite http request: " + req.getURI());
                     if (listener != null) listener.onPreConnect(request);
                     if (doStatistics) innerResponse.getHttpInnerListener().onPreConnect(request);
                     response = mHttpClient.execute(req);
@@ -451,9 +451,9 @@ public class ApacheHttpClient extends LiteHttpClient {
                                 innerResponse.setReadedLength(parser.getReadedLength());
                                 if (listener != null) listener.onAfterRead(request);
                             } else {
-                                if (Log.isPrint) Log.w(TAG, "DataParser readInputStream :currentThread isInterrupted ");
+                                if (true) Log.w(TAG, "DataParser readInputStream :currentThread isInterrupted ");
                             }
-                            if (Log.isPrint) Log.v(TAG, "lite http response: " + parser.getData());
+                            if (true) Log.v(TAG, "lite http response: " + parser.getData());
                         }
                     } else if (status.getStatusCode() <= 399) {
                         // redirect
@@ -470,7 +470,7 @@ public class ApacheHttpClient extends LiteHttpClient {
                                     }
                                     innerResponse.setRedirectTimes(innerResponse.getRedirectTimes() + 1);
                                     request.setUrl(location);
-                                    if (Log.isPrint) Log.i(TAG, "Redirect to : " + location);
+                                    if (true) Log.i(TAG, "Redirect to : " + location);
                                     if (listener != null) listener.onRedirect(request);
                                     readDataWithRetries(request, innerResponse);
                                     return;
@@ -488,7 +488,7 @@ public class ApacheHttpClient extends LiteHttpClient {
                         throw new HttpServerException(httpStatus);
                     }
                 } else {
-                    if (Log.isPrint) Log.w(TAG, "While read :currentThread isInterrupted ");
+                    if (true) Log.w(TAG, "While read :currentThread isInterrupted ");
                 }
                 retry = false;
             } catch (ClientProtocolException e) {

@@ -5,8 +5,7 @@ import java.lang.reflect.Method;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-
-import com.litesuits.http.utils.Log;
+import android.util.Log;
 
 /**
  * 

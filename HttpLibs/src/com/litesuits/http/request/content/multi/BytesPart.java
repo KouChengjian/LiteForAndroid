@@ -1,7 +1,8 @@
 package com.litesuits.http.request.content.multi;
 
+import android.util.Log;
+
 import com.litesuits.http.data.Consts;
-import com.litesuits.http.utils.Log;
 import com.litesuits.http.utils.StringCodingUtils;
 
 import java.io.IOException;
@@ -39,8 +40,8 @@ public class BytesPart extends AbstractPart {
     }
 
     public long getTotalLength() {
-        if (Log.isPrint) if (Log.isPrint) Log.v(TAG, TAG + "内容长度 header ： " + header.length + " ,body: "
-                + bytes.length + " ," + "换行：" + CR_LF.length);
+//        if (Log.isPrint) if (Log.isPrint) Log.v(TAG, TAG + "内容长度 header ： " + header.length + " ,body: "
+//                + bytes.length + " ," + "换行：" + CR_LF.length);
         return header.length + bytes.length + CR_LF.length;
     }
 

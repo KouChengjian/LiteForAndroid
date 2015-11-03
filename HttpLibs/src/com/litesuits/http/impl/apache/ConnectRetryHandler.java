@@ -1,17 +1,5 @@
 package com.litesuits.http.impl.apache;
 
-import android.content.Context;
-
-import com.litesuits.http.exception.HttpNetException;
-import com.litesuits.http.exception.HttpNetException.NetException;
-import com.litesuits.http.network.Network;
-import com.litesuits.http.utils.Log;
-
-import org.apache.http.NoHttpResponseException;
-import org.apache.http.protocol.HttpContext;
-
-import javax.net.ssl.SSLException;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -20,6 +8,18 @@ import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashSet;
+
+import javax.net.ssl.SSLException;
+
+import org.apache.http.NoHttpResponseException;
+import org.apache.http.protocol.HttpContext;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.litesuits.http.exception.HttpNetException;
+import com.litesuits.http.exception.HttpNetException.NetException;
+import com.litesuits.http.network.Network;
 
 /**
  * determine whether to send request try again.
@@ -58,13 +58,13 @@ public class ConnectRetryHandler extends StandardHttpRequestRetryHandler {
 			Context appContext) throws HttpNetException, InterruptedException {
 		boolean retry = true;
 		if (retryCount > maxRetries) {
-			if (Log.isPrint) Log.w(TAG, "retry count > max retry times..");
+			if (true) Log.w(TAG, "retry count > max retry times..");
 			throw new HttpNetException(exception);
 		} else if (isInList(exceptionBlacklist, exception)) {
-			if (Log.isPrint) Log.w(TAG, "exception in blacklist..");
+			if (true) Log.w(TAG, "exception in blacklist..");
 			retry = false;
 		} else if (isInList(exceptionWhitelist, exception)) {
-			if (Log.isPrint) Log.w(TAG, "exception in whitelist..");
+			if (true) Log.w(TAG, "exception in whitelist..");
 			retry = true;
 		}
 		if (retry) {
@@ -73,11 +73,11 @@ public class ConnectRetryHandler extends StandardHttpRequestRetryHandler {
 		}
 		if (retry) {
 			if (appContext != null) {
-				if (Log.isPrint) Log.v(TAG, "has app context..");
+				if (true) Log.v(TAG, "has app context..");
 				if (Network.isConnected(appContext)) {
 					Log.d(TAG, "Network isConnected, retry now");
 				} else if (Network.isConnectedOrConnecting(appContext)) {
-					if (Log.isPrint) Log.v(TAG, "Network is Connected Or Connecting, wait for retey : "
+					if (true) Log.v(TAG, "Network is Connected Or Connecting, wait for retey : "
 							+ retrySleepTimeMS + " ms");
 					Thread.sleep(retrySleepTimeMS);
 				} else {
@@ -90,12 +90,12 @@ public class ConnectRetryHandler extends StandardHttpRequestRetryHandler {
 					Log.d(TAG, "UnknownHostException. Without app context, immediately cancel retry");
 					throw new HttpNetException(NetException.NetworkError);
 				} else {
-					if (Log.isPrint) Log.v(TAG, "wait for retry : " + retrySleepTimeMS + " ms");
+					if (true) Log.v(TAG, "wait for retry : " + retrySleepTimeMS + " ms");
 					Thread.sleep(retrySleepTimeMS);
 				}
 			}
 		}
-		if (Log.isPrint) Log.i(TAG, "retry: " + retry + " , retryCount: " + retryCount + " , exception: " + exception);
+		if (true) Log.i(TAG, "retry: " + retry + " , retryCount: " + retryCount + " , exception: " + exception);
 		return retry;
 	}
 

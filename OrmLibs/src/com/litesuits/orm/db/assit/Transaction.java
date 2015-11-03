@@ -1,8 +1,7 @@
 package com.litesuits.orm.db.assit;
 
 import android.database.sqlite.SQLiteDatabase;
-
-import com.litesuits.orm.kvdb.Log;
+import android.util.Log;
 
 /**
  * 辅助事务
@@ -26,9 +25,9 @@ public class Transaction {
 		try {
 			data = worker.doTransaction(db);
 			db.setTransactionSuccessful();
-			if (Log.isPrint) Log.i(TAG, "----> Transaction Successful");
+			if (true) Log.i(TAG, "----> Transaction Successful");
 		} catch (Exception e) {
-			if (Log.isPrint) Log.e(TAG, "----> Transaction Failling");
+			if (true) Log.e(TAG, "----> Transaction Failling");
 			e.printStackTrace();
 		} finally {
 			db.endTransaction();

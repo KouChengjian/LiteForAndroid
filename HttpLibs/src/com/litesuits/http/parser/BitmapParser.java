@@ -2,8 +2,7 @@ package com.litesuits.http.parser;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-import com.litesuits.http.utils.Log;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,7 +58,7 @@ public class BitmapParser extends DataParser<Bitmap> {
                     if (httpReadingListener != null) httpReadingListener.onReading(request, len, readLength);
                 }
                 b = BitmapFactory.decodeFile(file.getAbsolutePath());
-                if (Log.isPrint && file != null) Log.i("FileParser", "file len: " + file.length());
+                if (true && file != null) Log.i("FileParser", "file len: " + file.length());
             } finally {
                 if (fos != null) fos.close();
             }

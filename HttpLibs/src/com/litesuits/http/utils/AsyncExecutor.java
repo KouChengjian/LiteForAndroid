@@ -2,6 +2,7 @@ package com.litesuits.http.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.util.concurrent.*;
 
@@ -50,7 +51,7 @@ public class AsyncExecutor {
 				try {
 					get();
 				} catch (InterruptedException e) {
-					Log.e(TAG, e);
+					Log.e(TAG, e.toString());
 					worker.abort();
 					e.printStackTrace();
 				} catch (ExecutionException e) {
@@ -59,7 +60,7 @@ public class AsyncExecutor {
 					throw new RuntimeException("An error occured while executing doInBackground()", e.getCause());
 				} catch (CancellationException e) {
 					worker.abort();
-					Log.e(TAG, e);
+					Log.e(TAG, e.toString());
 					e.printStackTrace();
 				}
 			}

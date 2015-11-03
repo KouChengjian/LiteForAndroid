@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.Mapping;
@@ -27,7 +28,6 @@ import com.litesuits.orm.db.model.SQLiteColumn;
 import com.litesuits.orm.db.model.SQLiteTable;
 import com.litesuits.orm.db.utils.DataUtil;
 import com.litesuits.orm.db.utils.FieldUtil;
-import com.litesuits.orm.kvdb.Log;
 
 /**
  * 表管理
@@ -130,20 +130,20 @@ public final class TableManager {
         if (!Checker.isEmpty(mSqlTableMap)) {
             SQLiteTable sqlTable = mSqlTableMap.get(entityTable.name);
             if (sqlTable != null) {
-                if (Log.isPrint) {
+                if (true) {
                     Log.d(TAG, "Table [" + entityTable.name + "] Exist");
                 }
                 if (!sqlTable.isTableChecked) {
                     // 表仅进行一次检查，检验是否有新字段加入。
                     sqlTable.isTableChecked = true;
-                    if (Log.isPrint) {
+                    if (true) {
                         Log.i(TAG, "Table [" + entityTable.name + "] check column now.");
                     }
                     if (entityTable.key != null) {
                         if (sqlTable.columns.get(entityTable.key.column) == null) {
                             SQLStatement stmt = SQLBuilder.buildDropTable(sqlTable.name);
                             stmt.execute(db);
-                            if (Log.isPrint) {
+                            if (true) {
                                 Log.i(TAG, "Table [" + entityTable.name + "] Primary Key has changed, " +
                                            "so drop and recreate it later.");
                             }
@@ -162,7 +162,7 @@ public final class TableManager {
                                 sqlTable.columns.put(col, 1);
                             }
                             int sum = insertNewColunms(db, entityTable.name, newColumns);
-                            if (Log.isPrint) {
+                            if (true) {
                                 if (sum > 0) {
                                     Log.i(TAG,
                                           "Table [" + entityTable.name + "] add " + sum + " new column ： " + newColumns);
@@ -177,7 +177,7 @@ public final class TableManager {
                 return true;
             }
         }
-        if (Log.isPrint) {
+        if (true) {
             Log.d(TAG, "Table [" + entityTable.name + "] Not Exist");
         }
         return false;
@@ -187,7 +187,7 @@ public final class TableManager {
      * 将Sql Table放入存储集合
      */
     private void putNewSqlTableIntoMap(EntityTable table) {
-        if (Log.isPrint) {
+        if (true) {
             Log.i(TAG, "Table [" + table.name + "] Create Success");
         }
         SQLiteTable sqlTable = new SQLiteTable();
@@ -212,7 +212,7 @@ public final class TableManager {
     private void initAllTablesFromSQLite(SQLiteDatabase db) {
         synchronized (mSqlTableMap) {
             if (Checker.isEmpty(mSqlTableMap)) {
-                if (Log.isPrint) {
+                if (true) {
                     Log.i(TAG, "Initialize SQL table start--------------------->");
                 }
                 SQLStatement st = SQLBuilder.buildTableObtainAll();
@@ -232,13 +232,13 @@ public final class TableManager {
                         for (String col : colS) {
                             sqlTable.columns.put(col, 1);
                         }
-                        if (Log.isPrint) {
+                        if (true) {
                             Log.d(TAG, "Find One SQL Table: " + sqlTable);
                         }
                         mSqlTableMap.put(sqlTable.name, sqlTable);
                     }
                 });
-                if (Log.isPrint) {
+                if (true) {
                     Log.i(TAG, "Initialize SQL table end  ---------------------> " + mSqlTableMap.size());
                 }
             }

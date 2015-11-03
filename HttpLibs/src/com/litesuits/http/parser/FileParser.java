@@ -1,11 +1,11 @@
 package com.litesuits.http.parser;
 
-import com.litesuits.http.utils.Log;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import android.util.Log;
 
 /**
  * parse inputstream to file.
@@ -43,7 +43,7 @@ public class FileParser extends DataParser<File> {
                 readLength += l;
                 if (httpReadingListener != null) httpReadingListener.onReading(request, len, readLength);
             }
-            if (Log.isPrint && file != null) Log.i("FileParser", "file len: " + file.length());
+            if (true && file != null) Log.i("FileParser", "file len: " + file.length());
         } finally {
             if (fos != null) fos.close();
         }
