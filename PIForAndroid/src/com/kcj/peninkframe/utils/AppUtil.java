@@ -1,13 +1,13 @@
 package com.kcj.peninkframe.utils;
 
+import java.util.List;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-
-import java.util.List;
 
 /**
  * @ClassName: AppUtil

@@ -1,10 +1,10 @@
 package com.kcj.peninkframe.bean;
 
+import java.util.ArrayList;
+
 import com.litesuits.orm.db.annotation.Mapping;
 import com.litesuits.orm.db.annotation.Mapping.Relation;
 import com.litesuits.orm.db.annotation.Table;
-
-import java.util.ArrayList;
 
 /**
  * 

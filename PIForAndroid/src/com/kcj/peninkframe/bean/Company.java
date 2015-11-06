@@ -1,13 +1,13 @@
 package com.kcj.peninkframe.bean;
 
+import java.util.ArrayList;
+
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.Mapping;
 import com.litesuits.orm.db.annotation.Mapping.Relation;
 import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.PrimaryKey.AssignType;
 import com.litesuits.orm.db.annotation.Table;
-
-import java.util.ArrayList;
 
 /**
  * 公司：多个 {@link Man} 在同一公司里，一个 {@link Man} 不能在多个公司。

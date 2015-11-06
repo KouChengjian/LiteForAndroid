@@ -5,6 +5,13 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
     
+    <style name="myDialogAnim" parent="android:Animation">
+        <!-- 进入时的动画 -->
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <!-- 退出时的动画 -->
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+    
 <!-- SwipeBack -->
     <style name="SwipeBackLayout">
         <item name="edge_size">50dip</item>

@@ -1,7 +1,11 @@
 package com.kcj.peninkframe.bean;
 
-import com.litesuits.orm.db.annotation.*;
+import com.litesuits.orm.db.annotation.Column;
+import com.litesuits.orm.db.annotation.Conflict;
+import com.litesuits.orm.db.annotation.NotNull;
+import com.litesuits.orm.db.annotation.PrimaryKey;
 import com.litesuits.orm.db.annotation.PrimaryKey.AssignType;
+import com.litesuits.orm.db.annotation.Table;
 
 /**
  * Wifi 和Man 是一对一关系

@@ -41,6 +41,9 @@
         <activity 
             android:name=".ui.SampleAsyncActivity"
             android:theme="@style/MyTranslucentAppTheme"/>
+        <activity 
+            android:name=".ui.SampleDialogActivity"
+            android:theme="@style/MyTranslucentAppTheme"/>
     </application>
 
 </manifest>

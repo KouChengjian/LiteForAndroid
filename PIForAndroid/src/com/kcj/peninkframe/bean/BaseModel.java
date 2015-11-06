@@ -1,9 +1,9 @@
 package com.kcj.peninkframe.bean;
 
+import java.io.Serializable;
+
 import com.litesuits.orm.db.annotation.Check;
 import com.litesuits.orm.db.annotation.Ignore;
-
-import java.io.Serializable;
 
 /**
  * @author MaTianyu

@@ -1,12 +1,13 @@
 package com.kcj.peninkframe.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @ClassName: AndroidUtil

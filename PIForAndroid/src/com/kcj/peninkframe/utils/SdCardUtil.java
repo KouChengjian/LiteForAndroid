@@ -1,11 +1,18 @@
 package com.kcj.peninkframe.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
-import java.io.*;
-import java.util.ArrayList;
 
 /**
  * @ClassName: SdCardUtil

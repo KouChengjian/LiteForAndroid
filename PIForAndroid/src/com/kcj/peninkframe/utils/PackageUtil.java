@@ -1,5 +1,9 @@
 package com.kcj.peninkframe.utils;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -13,10 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.widget.Toast;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: PackageUtil

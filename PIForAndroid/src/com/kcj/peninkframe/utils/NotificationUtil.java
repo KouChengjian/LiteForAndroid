@@ -1,5 +1,7 @@
 package com.kcj.peninkframe.utils;
 
+import java.util.ArrayList;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import java.util.ArrayList;
 
 /**
  * @ClassName: NotificationUtil

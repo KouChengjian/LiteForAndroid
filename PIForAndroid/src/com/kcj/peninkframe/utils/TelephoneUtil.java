@@ -1,11 +1,12 @@
 package com.kcj.peninkframe.utils;
 
-import android.content.Context;
-import android.telephony.TelephonyManager;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import android.content.Context;
+import android.telephony.TelephonyManager;
 
 /**
  * @ClassName: TelephoneUtil

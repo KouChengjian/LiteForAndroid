@@ -35,7 +35,7 @@ public class MainActivity extends BaseInheritActivity implements OnItemClickList
         data.add("orm");
         data.add("http");
         data.add("async");
-        data.add("测试数据4");
+        data.add("dialog");
         return data;
     }
 
@@ -50,6 +50,9 @@ public class MainActivity extends BaseInheritActivity implements OnItemClickList
 			break;
 		case 2:
 			startAnimActivity(SampleAsyncActivity.class);
+			break;
+		case 3:
+			startAnimActivity(SampleDialogActivity.class);
 			break;
 		default:
 			break;

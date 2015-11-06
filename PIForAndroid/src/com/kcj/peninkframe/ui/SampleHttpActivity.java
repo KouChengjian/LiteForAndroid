@@ -196,7 +196,7 @@ public class SampleHttpActivity extends BaseSwipeBackActivity implements
 				case 13: // 下载图片
 					makeLoadBitmapRequest();
 					break;
-				case 14: // 下载图片
+				case 14: // 下载文件
 					makeLoadFileRequest();
 					break;
 				case 15: // 自定义数据解析
@@ -453,6 +453,7 @@ public class SampleHttpActivity extends BaseSwipeBackActivity implements
 	
     private void makeLoadFileRequest() {
         File file = client.execute(imageUrl, new FileParser("sdcard/lite.jpg"), HttpMethod.Get);
+        
     }
 	
     private void makeCustomParserRequest() {

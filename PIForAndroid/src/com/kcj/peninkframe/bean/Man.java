@@ -1,13 +1,20 @@
 package com.kcj.peninkframe.bean;
 
-import com.litesuits.orm.db.annotation.*;
-import com.litesuits.orm.db.annotation.Mapping.Relation;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import com.litesuits.orm.db.annotation.Check;
+import com.litesuits.orm.db.annotation.Collate;
+import com.litesuits.orm.db.annotation.Column;
+import com.litesuits.orm.db.annotation.Default;
+import com.litesuits.orm.db.annotation.Ignore;
+import com.litesuits.orm.db.annotation.Mapping;
+import com.litesuits.orm.db.annotation.Mapping.Relation;
+import com.litesuits.orm.db.annotation.NotNull;
+import com.litesuits.orm.db.annotation.Table;
 
 @Table("man")
 public class Man extends Person {
