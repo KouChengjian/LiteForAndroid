@@ -15,8 +15,8 @@ import android.util.Log;
 /**
  * @ClassName: LogReader
  * @Description: 日志捕获器， 将某个程序、级别的日志记录到sd卡中，方便远程调试。
- * @author:
- * @date:
+ * @author: 
+ * @date: 
  */
 public class LogReader extends Thread {
 	public static final String TAG = "LogReader";
