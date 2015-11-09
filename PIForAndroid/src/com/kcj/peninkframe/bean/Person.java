@@ -4,8 +4,9 @@ import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.Conflict;
 import com.litesuits.orm.db.annotation.NotNull;
 import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.annotation.PrimaryKey.AssignType;
 import com.litesuits.orm.db.annotation.Table;
+import com.litesuits.orm.db.enums.AssignType;
+import com.litesuits.orm.db.enums.Strategy;
 
 /**
  * Wifi 和Man 是一对一关系
@@ -20,7 +21,7 @@ public class Person extends  BaseModel{
     protected long id;
 
     @NotNull
-    @Conflict(Conflict.Strategy.FAIL)
+    @Conflict(Strategy.FAIL)
     public String name;
 
     @Override

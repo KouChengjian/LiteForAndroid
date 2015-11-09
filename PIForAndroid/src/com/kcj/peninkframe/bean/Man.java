@@ -12,9 +12,9 @@ import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.Default;
 import com.litesuits.orm.db.annotation.Ignore;
 import com.litesuits.orm.db.annotation.Mapping;
-import com.litesuits.orm.db.annotation.Mapping.Relation;
 import com.litesuits.orm.db.annotation.NotNull;
 import com.litesuits.orm.db.annotation.Table;
+import com.litesuits.orm.db.enums.Relation;
 
 @Table("man")
 public class Man extends Person {

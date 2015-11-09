@@ -3,8 +3,8 @@ package com.kcj.peninkframe.bean;
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.NotNull;
 import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.annotation.PrimaryKey.AssignType;
 import com.litesuits.orm.db.annotation.Table;
+import com.litesuits.orm.db.enums.AssignType;
 
 /**
  * 一个 {@link Man}可以有多个地址

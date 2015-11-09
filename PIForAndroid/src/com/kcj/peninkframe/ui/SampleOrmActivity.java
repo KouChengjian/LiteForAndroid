@@ -60,7 +60,7 @@ public class SampleOrmActivity extends BaseSwipeBackActivity implements OnItemCl
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		db = LiteOrm.newInstance(this, "liteorm.db");
+		db = LiteOrm.newSingleInstance(this, "liteorm.db");
 		mockData();
 		listView = new ListView(this);
 		listView.setAdapter(new ArrayAdapter<String>(this,
@@ -316,30 +316,28 @@ public class SampleOrmActivity extends BaseSwipeBackActivity implements OnItemCl
 
         //AND关系 获取 南京的香港路
         qb = new QueryBuilder(Address.class)
-                .where(WhereBuilder.create()
-                                   .equals(Address.COL_ADDRESS, "香港路")
-                                   .andEquals(Address.COL_CITY, "南京"));
+        .whereEquals(Address.COL_CITY, "南京")
+        .whereAppendAnd()
+        .whereEquals(Address.COL_ADDRESS, "香港路");
         printAddress(db.<Address>query(qb));
 
         //OR关系 获取所有 地址为香港路 ，和 青岛 的所有地址
         qb = new QueryBuilder(Address.class)
-                .where(WhereBuilder.create()
-                                   .equals(Address.COL_ADDRESS, "香港路")
-                                   .orEquals(Address.COL_CITY, "青岛"));
+        .whereEquals(Address.COL_ADDRESS, "香港路")
+        .whereAppendOr()
+        .whereEquals(Address.COL_CITY, "青岛");
         printAddress(db.<Address>query(qb));
 
-        //IN语句 获取所有 城市为杭州 和 北京 的地址
+      //IN语句 获取所有 城市为杭州 和 北京 的地址
         qb = new QueryBuilder(Address.class)
-                .where(WhereBuilder.create()
-                                   .in(Address.COL_CITY, new String[]{"杭州", "北京"}));
+                .whereIn(Address.COL_CITY, new String[]{"杭州", "北京"});
         printAddress(db.<Address>query(qb));
 
         //IN语句 获取所有 非香港路 并且 ID>10
         qb = new QueryBuilder(Address.class)
-                .where(WhereBuilder.create()
-                                   .noEquals(Address.COL_ADDRESS, "香港路")
-                                   .and()
-                                   .greaterThan(Address.COL_ID, 5));
+                .whereNoEquals(Address.COL_ADDRESS, "香港路")
+                .whereAppendAnd()
+                .whereGreaterThan(Address.COL_ID, 5);
         printAddress(db.<Address>query(qb));
     }
     
@@ -423,28 +421,28 @@ public class SampleOrmActivity extends BaseSwipeBackActivity implements OnItemCl
     }
     
     private void testDeleteByWhereBuilder() {
-        //AND关系 删掉 南京 的 香港路
-        db.delete(Address.class, WhereBuilder.create()
-                                             .equals(Address.COL_ADDRESS, "香港路")
-                                             .andEquals(Address.COL_CITY, "南京"));
+    	//AND关系 删掉 南京 的 香港路
+    	db.delete(WhereBuilder.create(Address.class)
+                                   .equals(Address.COL_ADDRESS, "香港路")
+                                   .andEquals(Address.COL_CITY, "南京"));
         printAllAddress();
 
         //OR关系 删掉所有地址为 香港路 ，同时删掉 青岛的所有地址
-        db.delete(Address.class, WhereBuilder.create()
-                                             .equals(Address.COL_ADDRESS, "香港路")
-                                             .orEquals(Address.COL_CITY, "青岛"));
+        db.delete(WhereBuilder.create(Address.class)
+                                   .equals(Address.COL_ADDRESS, "香港路")
+                                   .orEquals(Address.COL_CITY, "青岛"));
         printAllAddress();
 
         //IN语句 删掉所有城市为 杭州 或 北京的地址
-        db.delete(Address.class, WhereBuilder.create()
-                                             .in(Address.COL_CITY, new String[]{"杭州", "北京"}));
+        db.delete(WhereBuilder.create(Address.class)
+                                   .in(Address.COL_CITY, new String[]{"杭州", "北京"}));
         printAllAddress();
 
         //IN语句 删掉所有 非香港路 并且 ID>10
-        db.delete(Address.class, WhereBuilder.create()
-                                             .equals(Address.COL_ADDRESS, "夫子庙")
-                                             .and()
-                                             .greaterThan(Address.COL_ID, 5));
+        db.delete(WhereBuilder.create(Address.class)
+                                   .equals(Address.COL_ADDRESS, "夫子庙")
+                                   .and()
+                                   .greaterThan(Address.COL_ID, 5));
         printAllAddress();
     }
     

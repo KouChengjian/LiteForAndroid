@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.litesuits.orm.db.annotation.Column;
 import com.litesuits.orm.db.annotation.PrimaryKey;
-import com.litesuits.orm.db.annotation.PrimaryKey.AssignType;
+import com.litesuits.orm.db.enums.AssignType;
 
 public class BaseAutoOrm implements Serializable{
 
