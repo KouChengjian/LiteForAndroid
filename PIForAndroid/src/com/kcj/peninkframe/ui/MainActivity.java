@@ -3,6 +3,8 @@ package com.kcj.peninkframe.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +18,7 @@ import android.widget.ListView;
  * @author: KCJ
  * @date:
  */
-public class MainActivity extends BaseInheritActivity implements OnItemClickListener{
+public class MainActivity extends Activity implements OnItemClickListener{
 
 	private ListView listView;
 
@@ -35,7 +37,6 @@ public class MainActivity extends BaseInheritActivity implements OnItemClickList
         data.add("orm");
         data.add("http");
         data.add("async");
-        data.add("dialog");
         return data;
     }
 
@@ -52,10 +53,13 @@ public class MainActivity extends BaseInheritActivity implements OnItemClickList
 			startAnimActivity(SampleAsyncActivity.class);
 			break;
 		case 3:
-			startAnimActivity(SampleDialogActivity.class);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void startAnimActivity(Class<?> cla) {
+		this.startActivity(new Intent(this, cla));
 	}
 }

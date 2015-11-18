@@ -5,29 +5,4 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
     
-    <style name="myDialogAnim" parent="android:Animation">
-        <!-- 进入时的动画 -->
-        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
-        <!-- 退出时的动画 -->
-        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
-    </style>
-    
-<!-- SwipeBack -->
-    <style name="SwipeBackLayout">
-        <item name="edge_size">50dip</item>
-        <item name="shadow_left">@drawable/swipe_back_shadow_left</item>
-        <item name="shadow_right">@drawable/swipe_back_shadow_right</item>
-        <item name="shadow_bottom">@drawable/swipe_back_shadow_bottom</item>
-    </style>
-    <style name="MyTranslucentAppTheme" parent="AppBaseTheme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@style/AnimFade2</item>
-    </style>
-    <style name="AnimFade2" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_from_right</item>
-        <item name="android:activityOpenExitAnimation">@anim/slide_out_to_left</item>
-        <item name="android:activityCloseExitAnimation">@anim/slide_out_to_right</item>
-        <item name="android:activityCloseEnterAnimation">@anim/slide_in_from_left</item>
-    </style>
-    
 </resources>

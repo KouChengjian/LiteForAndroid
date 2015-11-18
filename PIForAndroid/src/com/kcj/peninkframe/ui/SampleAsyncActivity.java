@@ -1,5 +1,6 @@
 package com.kcj.peninkframe.ui;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +8,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -16,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.kcj.peninkframe.utils.Log;
+import com.kcj.peninkframe.utils.Toastor;
 import com.litesuits.android.async.AsyncTask;
 import com.litesuits.android.async.SafeTask;
 import com.litesuits.android.async.SimpleCachedTask;
@@ -30,7 +34,7 @@ import com.litesuits.android.async.TaskExecutor;
  * @author: KCJ
  * @date:
  */
-public class SampleAsyncActivity extends BaseSwipeBackActivity implements OnItemClickListener {
+public class SampleAsyncActivity extends Activity implements OnItemClickListener {
 
 	Timer timer;
 	private ListView listView;
@@ -115,7 +119,7 @@ public class SampleAsyncActivity extends BaseSwipeBackActivity implements OnItem
 
 				@Override
 				public void run() {
-					Log.i(TAG, "bong!");
+					Log.i("TAG", "bong!");
 				}
 			}, 3000, 1000);
 			break;
@@ -399,34 +403,34 @@ public class SampleAsyncActivity extends BaseSwipeBackActivity implements OnItem
 			@Override
 			protected User doConnectNetwork() {
 				// execute...
-				Log.i(TAG, " 1 connect to network now..");
+				Log.i("TAG", " 1 connect to network now..");
 				return mockhttpGetUserInfo();
 			}
 		}.execute();
-		Log.i(TAG, "first call");
+		Log.i("TAG", "first call");
 
 		SystemClock.sleep(6000);
-		Log.i(TAG, "sleep 6000ms, second call");
+		Log.i("TAG", "sleep 6000ms, second call");
 		// sleep 6s , 未超时，数据将取自本地缓存。
 		new SimpleCachedTask<User>(this,
 				"getUserInfo", 10, TimeUnit.SECONDS) {
 			@Override
 			protected User doConnectNetwork() {
 				// noooo execute...!
-				Log.i(TAG, " 2 connect to network now.. 你将看不到这行日志。因为未超时它不会被执行");
+				Log.i("TAG", " 2 connect to network now.. 你将看不到这行日志。因为未超时它不会被执行");
 				return mockhttpGetUserInfo();
 			}
 		}.execute();
 		SystemClock.sleep(6000);
-		Log.i(TAG, "sleep 6000ms again, third call");
+		Log.i("TAG", "sleep 6000ms again, third call");
 		// sleep 12s , 已超时，数据将取自本地网络。
 		new SimpleCachedTask<User>(this,
 				"getUserInfo", 10, TimeUnit.SECONDS) {
 			@Override
 			protected User doConnectNetwork() {
 				// execute...!
-				Log.i(TAG, " 3 connect to network now..");
-				Log.i(TAG, " 3  取自互联网（虚拟）");
+				Log.i("TAG", " 3 connect to network now..");
+				Log.i("TAG", " 3  取自互联网（虚拟）");
 				return mockhttpGetUserInfo();
 			}
 		}.execute();
@@ -498,5 +502,16 @@ public class SampleAsyncActivity extends BaseSwipeBackActivity implements OnItem
                     + result + "]";
         }
     }
+	
+	public void ShowToast(final String text) {
+		if (!TextUtils.isEmpty(text)) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toastor.ShowToast(text);
+				}
+			});
+		}
+	}
 
 }

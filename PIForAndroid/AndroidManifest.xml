@@ -33,17 +33,13 @@
         </activity>
         
         <activity 
-            android:name=".ui.SampleOrmActivity"
-            android:theme="@style/MyTranslucentAppTheme"/>
+            android:name=".ui.SampleOrmActivity"/>
         <activity 
-            android:name=".ui.SampleHttpActivity"
-            android:theme="@style/MyTranslucentAppTheme"/>
+            android:name=".ui.SampleHttpActivity"/>
         <activity 
-            android:name=".ui.SampleAsyncActivity"
-            android:theme="@style/MyTranslucentAppTheme"/>
+            android:name=".ui.SampleAsyncActivity"/>
         <activity 
-            android:name=".ui.SampleDialogActivity"
-            android:theme="@style/MyTranslucentAppTheme"/>
+            android:name=".ui.SampleDialogActivity"/>
     </application>
 
 </manifest>

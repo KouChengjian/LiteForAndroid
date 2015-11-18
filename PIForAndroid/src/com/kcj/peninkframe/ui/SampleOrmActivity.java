@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,6 +21,7 @@ import com.kcj.peninkframe.bean.Company;
 import com.kcj.peninkframe.bean.Man;
 import com.kcj.peninkframe.bean.Wife;
 import com.kcj.peninkframe.utils.Log;
+import com.kcj.peninkframe.utils.Toastor;
 import com.litesuits.orm.LiteOrm;
 import com.litesuits.orm.db.DataBase;
 import com.litesuits.orm.db.assit.QueryBuilder;
@@ -33,7 +36,7 @@ import com.litesuits.orm.db.model.ConflictAlgorithm;
  * @author: KCJ
  * @date:
  */
-public class SampleOrmActivity extends BaseSwipeBackActivity implements OnItemClickListener{
+public class SampleOrmActivity extends Activity implements OnItemClickListener{
 
 	DataBase db;
 	private ListView listView;
@@ -457,4 +460,15 @@ public class SampleOrmActivity extends BaseSwipeBackActivity implements OnItemCl
         db.deleteAll(Man.class);
         db.deleteAll(Boss.class);
     }
+    
+    public void ShowToast(final String text) {
+		if (!TextUtils.isEmpty(text)) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toastor.ShowToast(text);
+				}
+			});
+		}
+	}
 }

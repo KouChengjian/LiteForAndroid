@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +38,7 @@ import com.kcj.peninkframe.bean.UserParam;
 import com.kcj.peninkframe.config.CustomJSONParser;
 import com.kcj.peninkframe.config.FastJson;
 import com.kcj.peninkframe.config.MyHttpExceptHandler;
+import com.kcj.peninkframe.utils.Toastor;
 import com.litesuits.http.HttpConfig;
 import com.litesuits.http.LiteHttp;
 import com.litesuits.http.annotation.HttpCacheExpire;
@@ -95,9 +97,10 @@ import com.litesuits.http.utils.HttpUtil;
  * @author: KCJ
  * @date:
  */
-public class SampleHttpActivity extends BaseSwipeBackActivity implements
+public class SampleHttpActivity extends Activity implements
 		OnItemClickListener {
 
+	protected String TAG; // 打印的名称
 	private ListView listView;
 	private LiteHttp liteHttp;
 	protected Activity activity = null;
@@ -122,6 +125,7 @@ public class SampleHttpActivity extends BaseSwipeBackActivity implements
 		setContentView(listView);
 		listView.setOnItemClickListener(this);
 
+		TAG = this.getClass().getSimpleName();
 		activity = this;
 		liteHttp = LiteHttp.newApacheHttpClient(null);
 	}
@@ -1256,4 +1260,15 @@ public class SampleHttpActivity extends BaseSwipeBackActivity implements
         }
 
     };
+    
+    public void ShowToast(final String text) {
+		if (!TextUtils.isEmpty(text)) {
+			runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toastor.ShowToast(text);
+				}
+			});
+		}
+	}
 }
