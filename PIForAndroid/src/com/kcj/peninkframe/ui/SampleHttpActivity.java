@@ -529,8 +529,7 @@ public class SampleHttpActivity extends Activity implements
 			downProgress.setIndeterminate(false);
 			downProgress.show();
 			// load and show bitmap
-			liteHttp.executeAsync(new BitmapRequest(picUrl)
-					.setHttpListener(new HttpListener<Bitmap>(true, true, false) {
+			liteHttp.executeAsync(new BitmapRequest(picUrl).setHttpListener(new HttpListener<Bitmap>(true, true, false) {
 						@Override
 						public void onLoading(AbstractRequest<Bitmap> request,
 								long total, long len) {
@@ -561,7 +560,12 @@ public class SampleHttpActivity extends Activity implements
 					}));
 
 			// download a file to sdcard.
-			liteHttp.executeAsync(new FileRequest(picUrl, "sdcard/aaa.jpg"));
+			liteHttp.executeAsync(new FileRequest(picUrl, "sdcard/aaa.jpg").setHttpListener(new HttpListener<File>(true, true, false){
+				@Override
+				public void onLoading(AbstractRequest<File> request,long total, long len) {
+					super.onLoading(request, total, len);
+				}
+			}));
 			break;
 		case 11:
 			// 11. Disable Some Network
