@@ -200,8 +200,7 @@ public class SampleHttpActivity extends Activity implements
 			// 1. Asynchronous Request
 
 			// 1.0 init request
-			final StringRequest request = new StringRequest(url)
-					.setHttpListener(new HttpListener<String>() {
+			final StringRequest request = new StringRequest(url).setHttpListener(new HttpListener<String>() {
 						@Override
 						public void onSuccess(String s,
 								Response<String> response) {
@@ -566,6 +565,7 @@ public class SampleHttpActivity extends Activity implements
 					super.onLoading(request, total, len);
 				}
 			}));
+			
 			break;
 		case 11:
 			// 11. Disable Some Network
