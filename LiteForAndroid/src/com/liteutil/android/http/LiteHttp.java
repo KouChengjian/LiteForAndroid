@@ -36,6 +36,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.liteutil.android.http.impl.apache.ApacheHttpClient;
+
+
 //                              _oo0oo_
 //                             o8888888o
 //                             88" . "88

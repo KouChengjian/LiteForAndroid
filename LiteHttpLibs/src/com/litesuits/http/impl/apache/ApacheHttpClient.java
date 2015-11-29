@@ -50,6 +50,7 @@ import java.util.Set;
  * @author MaTianyu
  *         2014-1-1下午9:38:21
  */
+@SuppressWarnings("deprecation")
 public class ApacheHttpClient extends LiteHttp {
     private static String TAG = ApacheHttpClient.class.getSimpleName();
     private DefaultHttpClient mHttpClient;

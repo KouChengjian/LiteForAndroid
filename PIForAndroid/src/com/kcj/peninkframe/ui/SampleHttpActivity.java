@@ -97,8 +97,7 @@ import com.litesuits.http.utils.HttpUtil;
  * @author: KCJ
  * @date:
  */
-public class SampleHttpActivity extends Activity implements
-		OnItemClickListener {
+public class SampleHttpActivity extends Activity implements OnItemClickListener {
 
 	protected String TAG; // 打印的名称
 	private ListView listView;
