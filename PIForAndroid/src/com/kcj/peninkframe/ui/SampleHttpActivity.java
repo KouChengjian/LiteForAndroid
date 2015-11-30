@@ -231,8 +231,7 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener 
 				public void run() {
 
 					// 2.0 execute: return fully response
-					Response<User> response = liteHttp.execute(new RichParam(1,
-							"a"));
+					Response<User> response = liteHttp.execute(new RichParam(1,"a"));
 					User user = response.getResult();
 					Log.i(TAG, "User: " + user);
 

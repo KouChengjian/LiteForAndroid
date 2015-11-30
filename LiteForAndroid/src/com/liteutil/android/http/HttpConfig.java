@@ -3,7 +3,6 @@ package com.liteutil.android.http;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
 //import com.litesuits.http.concurrent.OverloadPolicy;
 //import com.litesuits.http.concurrent.SchedulePolicy;
 //import com.litesuits.http.data.Consts;
@@ -17,8 +16,33 @@ import android.util.Log;
 //import com.litesuits.http.request.query.ModelQueryBuilder;
 //import com.litesuits.http.utils.HttpUtil;
 
+
+
+
+
+
+
+
+
+
+
+
+
 import java.io.File;
 import java.util.List;
+
+import com.liteutil.android.http.concurrent.OverloadPolicy;
+import com.liteutil.android.http.concurrent.SchedulePolicy;
+import com.liteutil.android.http.data.Consts;
+import com.liteutil.android.http.data.NameValuePair;
+import com.liteutil.android.http.listener.GlobalHttpListener;
+import com.liteutil.android.http.request.param.CacheMode;
+import com.liteutil.android.http.request.param.HttpMethods;
+import com.liteutil.android.http.request.query.JsonQueryBuilder;
+import com.liteutil.android.http.request.query.ModelQueryBuilder;
+import com.liteutil.android.util.HttpUtil;
+import com.liteutil.android.util.Log;
+import com.liteutil.android.util.Network;
 
 
 /**
@@ -30,10 +54,10 @@ public class HttpConfig {
     protected static final String TAG = HttpConfig.class.getSimpleName();
     protected static final String VERSION = "2.0";
     public static final int FLAG_NET_DISABLE_NONE   = 0;
-//    public static final int FLAG_NET_DISABLE_ALL    = Network.NetType.None.value;
-//    public static final int FLAG_NET_DISABLE_MOBILE = Network.NetType.Mobile.value;
-//    public static final int FLAG_NET_DISABLE_WIFI   = Network.NetType.Wifi.value;
-//    public static final int FLAG_NET_DISABLE_OTHER  = Network.NetType.Other.value;
+    public static final int FLAG_NET_DISABLE_ALL    = Network.NetType.None.value;
+    public static final int FLAG_NET_DISABLE_MOBILE = Network.NetType.Mobile.value;
+    public static final int FLAG_NET_DISABLE_WIFI   = Network.NetType.Wifi.value;
+    public static final int FLAG_NET_DISABLE_OTHER  = Network.NetType.Other.value;
 
     /**
      * default retry times at most
@@ -104,19 +128,19 @@ public class HttpConfig {
     /**
      * concurrent threads number at the same time
      */
-//    protected int concurrentSize = HttpUtil.getCoresNumbers();
+    protected int concurrentSize = HttpUtil.getCoresNumbers();
     /**
      * waiting threads maximum number
      */
-//    protected int waitingQueueSize = 20 * concurrentSize;
+    protected int waitingQueueSize = 20 * concurrentSize;
     /**
      * schedule policy when execute next task
      */
-//    protected SchedulePolicy schedulePolicy;
+    protected SchedulePolicy schedulePolicy;
     /**
      * handle policy when overload
      */
-//    protected OverloadPolicy overloadPolicy;
+    protected OverloadPolicy overloadPolicy;
     /**
      * maximum size of memory cache size, default size is
      */
@@ -131,19 +155,19 @@ public class HttpConfig {
     /**
      * set common headers to all request
      */
-//    protected List<NameValuePair> commonHeaders;
+    protected List<NameValuePair> commonHeaders;
     /**
      * set default charset to all request
      */
-//    protected String defaultCharSet = Consts.DEFAULT_CHARSET;
+    protected String defaultCharSet = Consts.DEFAULT_CHARSET;
     /**
      * set default http method to all request
      */
-//    protected HttpMethods defaultHttpMethod = HttpMethods.Get;
+    protected HttpMethods defaultHttpMethod = HttpMethods.Get;
     /**
      * set default cache mode to all request
      */
-//    protected CacheMode defaultCacheMode;
+    protected CacheMode defaultCacheMode;
     /**
      * set default cache expire time to all request
      */
@@ -159,11 +183,11 @@ public class HttpConfig {
     /**
      * set default model query builder to all reqest
      */
-//    protected ModelQueryBuilder defaultModelQueryBuilder = new JsonQueryBuilder();
+    protected ModelQueryBuilder defaultModelQueryBuilder = new JsonQueryBuilder();
     /**
      * set global http listener to all reqest
      */
-//    protected GlobalHttpListener globalHttpListener;
+    protected GlobalHttpListener globalHttpListener;
     /**
      * set global http scheme and host for uri.
      */
@@ -173,12 +197,18 @@ public class HttpConfig {
      */
     protected boolean debugged;
 
-//    public HttpConfig(Context context) {
-//        if (context != null) {
-//            this.context = context.getApplicationContext();
-//        }
-//        setDefaultCacheDir(getDefaultCacheDir(context));
-//    }
+    public HttpConfig(Context context) {
+        if (context != null) {
+            this.context = context.getApplicationContext();
+        }
+        setDefaultCacheDir(getDefaultCacheDir(context));
+    }
+    
+    public HttpConfig(Context context, boolean doStatistics, boolean detectNetwork) {
+        this(context);
+        this.doStatistics = doStatistics;
+        this.detectNetwork = detectNetwork;
+    }
 
     private String getDefaultCacheDir(Context context) {
         if (context != null) {
@@ -187,12 +217,6 @@ public class HttpConfig {
             return Environment.getExternalStorageDirectory() + "/lite/http-cache";
         }
     }
-
-//    public HttpConfig(Context context, boolean doStatistics, boolean detectNetwork) {
-//        this(context);
-//        this.doStatistics = doStatistics;
-//        this.detectNetwork = detectNetwork;
-//    }
 
     /* ____________________________ getter & setter ____________________________*/
     protected HttpConfig setLiteHttp(LiteHttp liteHttp) {
@@ -269,53 +293,53 @@ public class HttpConfig {
         return retrySleepMillis;
     }
 
-//    public int getConcurrentSize() {
-//        return concurrentSize;
-//    }
+    public int getConcurrentSize() {
+        return concurrentSize;
+    }
 
-//    public HttpConfig setConcurrentSize(int concurrentSize) {
-//        this.concurrentSize = concurrentSize;
-//        if (liteHttp != null) {
-//            liteHttp.setConfigForSmartExecutor(concurrentSize, waitingQueueSize);
-//        }
-//        return this;
-//    }
+    public HttpConfig setConcurrentSize(int concurrentSize) {
+        this.concurrentSize = concurrentSize;
+        if (liteHttp != null) {
+            liteHttp.setConfigForSmartExecutor(concurrentSize, waitingQueueSize);
+        }
+        return this;
+    }
 
-//    public int getWaitingQueueSize() {
-//        return waitingQueueSize;
-//    }
+    public int getWaitingQueueSize() {
+        return waitingQueueSize;
+    }
 
-//    public HttpConfig setWaitingQueueSize(int waitingQueueSize) {
-//        this.waitingQueueSize = waitingQueueSize;
-//        if (liteHttp != null) {
-//            liteHttp.setConfigForSmartExecutor(concurrentSize, waitingQueueSize);
-//        }
-//        return this;
-//    }
+    public HttpConfig setWaitingQueueSize(int waitingQueueSize) {
+        this.waitingQueueSize = waitingQueueSize;
+        if (liteHttp != null) {
+            liteHttp.setConfigForSmartExecutor(concurrentSize, waitingQueueSize);
+        }
+        return this;
+    }
 
-//    public SchedulePolicy getSchedulePolicy() {
-//        return schedulePolicy;
-//    }
+    public SchedulePolicy getSchedulePolicy() {
+        return schedulePolicy;
+    }
 
-//    public HttpConfig setSchedulePolicy(SchedulePolicy schedulePolicy) {
-//        this.schedulePolicy = schedulePolicy;
-//        if (liteHttp != null) {
-//            liteHttp.setConfigForSmartExecutor(schedulePolicy, overloadPolicy);
-//        }
-//        return this;
-//    }
+    public HttpConfig setSchedulePolicy(SchedulePolicy schedulePolicy) {
+        this.schedulePolicy = schedulePolicy;
+        if (liteHttp != null) {
+            liteHttp.setConfigForSmartExecutor(schedulePolicy, overloadPolicy);
+        }
+        return this;
+    }
 
-//    public OverloadPolicy getOverloadPolicy() {
-//        return overloadPolicy;
-//    }
+    public OverloadPolicy getOverloadPolicy() {
+        return overloadPolicy;
+    }
 
-//    public HttpConfig setOverloadPolicy(OverloadPolicy overloadPolicy) {
-//        this.overloadPolicy = overloadPolicy;
-//        if (liteHttp != null) {
-//            liteHttp.setConfigForSmartExecutor(schedulePolicy, overloadPolicy);
-//        }
-//        return this;
-//    }
+    public HttpConfig setOverloadPolicy(OverloadPolicy overloadPolicy) {
+        this.overloadPolicy = overloadPolicy;
+        if (liteHttp != null) {
+            liteHttp.setConfigForSmartExecutor(schedulePolicy, overloadPolicy);
+        }
+        return this;
+    }
 
     public long getMaxMemCacheBytesSize() {
         return maxMemCacheBytesSize;
@@ -330,52 +354,52 @@ public class HttpConfig {
         return defaultCacheDir;
     }
 
-//    public HttpConfig setDefaultCacheDir(String defaultCacheDir) {
-//        this.defaultCacheDir = defaultCacheDir;
-//        File file = new File(defaultCacheDir);
-//        if (!file.exists()) {
-//            boolean mkdirs = file.mkdirs();
-//            HttpLog.i(TAG, file.getAbsolutePath() + "  mkdirs: " + mkdirs);
-//        }
-//        HttpLog.i(TAG, "lite http cache file dir: " + defaultCacheDir);
-//        return this;
-//    }
+    public HttpConfig setDefaultCacheDir(String defaultCacheDir) {
+        this.defaultCacheDir = defaultCacheDir;
+        File file = new File(defaultCacheDir);
+        if (!file.exists()) {
+            boolean mkdirs = file.mkdirs();
+            Log.i(TAG, file.getAbsolutePath() + "  mkdirs: " + mkdirs);
+        }
+        Log.i(TAG, "lite http cache file dir: " + defaultCacheDir);
+        return this;
+    }
 
-//    public List<NameValuePair> getCommonHeaders() {
-//        return commonHeaders;
-//    }
+    public List<NameValuePair> getCommonHeaders() {
+        return commonHeaders;
+    }
 
-//    public HttpConfig setCommonHeaders(List<NameValuePair> commonHeaders) {
-//        this.commonHeaders = commonHeaders;
-//        return this;
-//    }
+    public HttpConfig setCommonHeaders(List<NameValuePair> commonHeaders) {
+        this.commonHeaders = commonHeaders;
+        return this;
+    }
 
-//    public String getDefaultCharSet() {
-//        return defaultCharSet;
-//    }
+    public String getDefaultCharSet() {
+        return defaultCharSet;
+    }
 
-//    public HttpConfig setDefaultCharSet(String defaultCharSet) {
-//        this.defaultCharSet = defaultCharSet;
-//        return this;
-//    }
+    public HttpConfig setDefaultCharSet(String defaultCharSet) {
+        this.defaultCharSet = defaultCharSet;
+        return this;
+    }
 
-//    public HttpMethods getDefaultHttpMethod() {
-//        return defaultHttpMethod;
-//    }
+    public HttpMethods getDefaultHttpMethod() {
+        return defaultHttpMethod;
+    }
 
-//    public HttpConfig setDefaultHttpMethod(HttpMethods defaultHttpMethod) {
-//        this.defaultHttpMethod = defaultHttpMethod;
-//        return this;
-//    }
+    public HttpConfig setDefaultHttpMethod(HttpMethods defaultHttpMethod) {
+        this.defaultHttpMethod = defaultHttpMethod;
+        return this;
+    }
 
-//    public CacheMode getDefaultCacheMode() {
-//        return defaultCacheMode;
-//    }
+    public CacheMode getDefaultCacheMode() {
+        return defaultCacheMode;
+    }
 
-//    public HttpConfig setDefaultCacheMode(CacheMode defaultCacheMode) {
-//        this.defaultCacheMode = defaultCacheMode;
-//        return this;
-//    }
+    public HttpConfig setDefaultCacheMode(CacheMode defaultCacheMode) {
+        this.defaultCacheMode = defaultCacheMode;
+        return this;
+    }
 
     public long getDefaultCacheExpireMillis() {
         return defaultCacheExpireMillis;
@@ -441,16 +465,16 @@ public class HttpConfig {
      *
      * @param debugged true if debugged
      */
-//    public HttpConfig setDebugged(boolean debugged) {
-//        this.debugged = debugged;
-//        HttpLog.isPrint = debugged;
-//        return this;
-//    }
+    public HttpConfig setDebugged(boolean debugged) {
+        this.debugged = debugged;
+        Log.isPrint = debugged;
+        return this;
+    }
 
     /* ____________________________ enhanced methods ____________________________*/
-//    public boolean isDisableAllNetwork() {
-//        return (disableNetworkFlags & FLAG_NET_DISABLE_ALL) == FLAG_NET_DISABLE_ALL;
-//    }
+    public boolean isDisableAllNetwork() {
+        return (disableNetworkFlags & FLAG_NET_DISABLE_ALL) == FLAG_NET_DISABLE_ALL;
+    }
 
     public boolean detectNetworkNeeded() {
         return detectNetwork && context != null;
@@ -460,39 +484,39 @@ public class HttpConfig {
         return (disableNetworkFlags & networkType) == networkType;
     }
 
-//    public HttpConfig restoreToDefault() {
-//        userAgent = String.format("litehttp%s (android-%s; api-%s; %s; %s)", VERSION
-//                , Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.BRAND, Build.MODEL);
-//        connectTimeout = DEFAULT_TIMEOUT;
-//        socketTimeout = DEFAULT_TIMEOUT;
-//        socketBufferSize = DEFAULT_BUFFER_SIZE;
-//        disableNetworkFlags = FLAG_NET_DISABLE_NONE;
-//        doStatistics = false;
-//        detectNetwork = false;
-//        requestSentRetryEnabled = false;
-//        retrySleepMillis = DEFAULT_TRY_WAIT_TIME;
-//        concurrentSize = HttpUtil.getCoresNumbers();
-//        waitingQueueSize = 20 * concurrentSize;
-//        schedulePolicy = SchedulePolicy.FirstInFistRun;
-//        overloadPolicy = OverloadPolicy.DiscardOldTaskInQueue;
-//        maxMemCacheBytesSize = 512 * 1024;
-//        defaultCacheDir = getDefaultCacheDir(context);
-//
-//        commonHeaders = null;
-//        defaultCharSet = Consts.DEFAULT_CHARSET;
-//        defaultHttpMethod = HttpMethods.Get;
-//        defaultCacheMode = null;
-//        defaultCacheExpireMillis = 0;
-//        defaultMaxRetryTimes = DEFAULT_MAX_RETRY_TIMES;
-//        defaultMaxRedirectTimes = DEFAULT_MAX_REDIRECT_TIMES;
-//        defaultModelQueryBuilder = new JsonQueryBuilder();
-//        globalHttpListener = null;
-//        globalSchemeHost = null;
-//        if (liteHttp != null) {
-//            liteHttp.initConfig(this);
-//        }
-//        return this;
-//    }
+    public HttpConfig restoreToDefault() {
+        userAgent = String.format("litehttp%s (android-%s; api-%s; %s; %s)", VERSION
+                , Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.BRAND, Build.MODEL);
+        connectTimeout = DEFAULT_TIMEOUT;
+        socketTimeout = DEFAULT_TIMEOUT;
+        socketBufferSize = DEFAULT_BUFFER_SIZE;
+        disableNetworkFlags = FLAG_NET_DISABLE_NONE;
+        doStatistics = false;
+        detectNetwork = false;
+        requestSentRetryEnabled = false;
+        retrySleepMillis = DEFAULT_TRY_WAIT_TIME;
+        concurrentSize = HttpUtil.getCoresNumbers();
+        waitingQueueSize = 20 * concurrentSize;
+        schedulePolicy = SchedulePolicy.FirstInFistRun;
+        overloadPolicy = OverloadPolicy.DiscardOldTaskInQueue;
+        maxMemCacheBytesSize = 512 * 1024;
+        defaultCacheDir = getDefaultCacheDir(context);
+
+        commonHeaders = null;
+        defaultCharSet = Consts.DEFAULT_CHARSET;
+        defaultHttpMethod = HttpMethods.Get;
+        defaultCacheMode = null;
+        defaultCacheExpireMillis = 0;
+        defaultMaxRetryTimes = DEFAULT_MAX_RETRY_TIMES;
+        defaultMaxRedirectTimes = DEFAULT_MAX_REDIRECT_TIMES;
+        defaultModelQueryBuilder = new JsonQueryBuilder();
+        globalHttpListener = null;
+        globalSchemeHost = null;
+        if (liteHttp != null) {
+            liteHttp.initConfig(this);
+        }
+        return this;
+    }
 
     public HttpConfig setTimeOut(int connectTimeout, int socketTimeout) {
         this.connectTimeout = connectTimeout;

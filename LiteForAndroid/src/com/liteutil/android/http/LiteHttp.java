@@ -3,10 +3,8 @@ package com.liteutil.android.http;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 //import com.litesuits.http.concurrent.OverloadPolicy;
 //import com.litesuits.http.concurrent.SchedulePolicy;
-//import com.litesuits.http.concurrent.SmartExecutor;
 //import com.litesuits.http.data.NameValuePair;
 //import com.litesuits.http.data.StatisticsInfo;
 //import com.litesuits.http.exception.*;
@@ -27,6 +25,28 @@ import android.util.Log;
 //import com.litesuits.http.response.Response;
 //import com.litesuits.http.utils.HttpUtil;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -36,7 +56,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.liteutil.android.http.concurrent.OverloadPolicy;
+import com.liteutil.android.http.concurrent.SchedulePolicy;
+import com.liteutil.android.http.concurrent.SmartExecutor;
+import com.liteutil.android.http.data.StatisticsInfo;
+import com.liteutil.android.http.exception.ClientException;
+import com.liteutil.android.http.exception.HttpClientException;
+import com.liteutil.android.http.exception.HttpException;
+import com.liteutil.android.http.exception.HttpNetException;
+import com.liteutil.android.http.exception.HttpServerException;
+import com.liteutil.android.http.exception.NetException;
 import com.liteutil.android.http.impl.apache.ApacheHttpClient;
+import com.liteutil.android.http.listener.GlobalHttpListener;
+import com.liteutil.android.http.listener.HttpListener;
+import com.liteutil.android.http.listener.StatisticsListener;
+import com.liteutil.android.http.parser.DataParser;
+import com.liteutil.android.http.request.AbstractRequest;
+import com.liteutil.android.http.request.param.CacheMode;
+import com.liteutil.android.http.request.param.HttpRichParamModel;
+import com.liteutil.android.http.response.InternalResponse;
+import com.liteutil.android.http.response.Response;
+import com.liteutil.android.util.HttpUtil;
+import com.liteutil.android.util.Log;
+import com.liteutil.android.util.Network;
 
 
 //                              _oo0oo_
@@ -122,32 +164,32 @@ public abstract class LiteHttp {
     private static final String TAG = LiteHttp.class.getSimpleName();
 
     protected HttpConfig config;
-//    protected SmartExecutor smartExecutor;
+    protected SmartExecutor smartExecutor;
     protected final Object lock = new Object();
-//    protected StatisticsInfo statisticsInfo = new StatisticsInfo();
+    protected StatisticsInfo statisticsInfo = new StatisticsInfo();
     protected AtomicLong memCachedSize = new AtomicLong();
     protected ConcurrentHashMap<String, HttpCache> memCache = new ConcurrentHashMap<String, HttpCache>();
 
     protected LiteHttp() {}
 
-//    public static LiteHttp newApacheHttpClient(HttpConfig config) {
-//        return new ApacheHttpClient(config);
-//    }
+    public static LiteHttp newApacheHttpClient(HttpConfig config) {
+        return new ApacheHttpClient(config);
+    }
 
     /* ____________________________ may be overridden by sub class ____________________________*/
-//    public void initConfig(HttpConfig config) {
-//        this.config = config;
-//        this.config.setLiteHttp(this);
-//        Log.d(TAG, config.toString());
-//
-//        // Set config and smart-executor to lite-http.
-//        if (smartExecutor == null) {
-//            smartExecutor = new SmartExecutor(config.concurrentSize, config.waitingQueueSize);
-//        } else {
-//            setConfigForSmartExecutor(config.concurrentSize, config.waitingQueueSize);
-//        }
-//        setConfigForSmartExecutor(config.schedulePolicy, config.overloadPolicy);
-//    }
+    public void initConfig(HttpConfig config) {
+        this.config = config;
+        this.config.setLiteHttp(this);
+        Log.d(TAG, config.toString());
+
+        // Set config and smart-executor to lite-http.
+        if (smartExecutor == null) {
+            smartExecutor = new SmartExecutor(config.concurrentSize, config.waitingQueueSize);
+        } else {
+            setConfigForSmartExecutor(config.concurrentSize, config.waitingQueueSize);
+        }
+        setConfigForSmartExecutor(config.schedulePolicy, config.overloadPolicy);
+    }
 
     protected void setUserAgent(String userAgent) {}
 
@@ -156,19 +198,19 @@ public abstract class LiteHttp {
     protected void setConfigForRetryHandler(int retrySleepMillis, boolean requestSentRetryEnabled) { }
 
     /* ____________________________ main methods ____________________________*/
-//    protected final void setConfigForSmartExecutor(int concurrentSize, int waitingQueueSize) {
-//        smartExecutor.setCoreSize(concurrentSize);
-//        smartExecutor.setQueueSize(waitingQueueSize);
-//    }
+    protected final void setConfigForSmartExecutor(int concurrentSize, int waitingQueueSize) {
+        smartExecutor.setCoreSize(concurrentSize);
+        smartExecutor.setQueueSize(waitingQueueSize);
+    }
 
-//    protected final void setConfigForSmartExecutor(SchedulePolicy schedulePolicy, OverloadPolicy overloadPolicy) {
-//        if (schedulePolicy != null) {
-//            smartExecutor.setSchedulePolicy(schedulePolicy);
-//        }
-//        if (overloadPolicy != null) {
-//            smartExecutor.setOverloadPolicy(overloadPolicy);
-//        }
-//    }
+    protected final void setConfigForSmartExecutor(SchedulePolicy schedulePolicy, OverloadPolicy overloadPolicy) {
+        if (schedulePolicy != null) {
+            smartExecutor.setSchedulePolicy(schedulePolicy);
+        }
+        if (overloadPolicy != null) {
+            smartExecutor.setOverloadPolicy(overloadPolicy);
+        }
+    }
 
     public final HttpConfig getConfig() {
         return config;
@@ -178,96 +220,96 @@ public abstract class LiteHttp {
         return config.context;
     }
 
-//    public final StatisticsInfo getStatisticsInfo() {
-//        return statisticsInfo;
-//    }
+    public final StatisticsInfo getStatisticsInfo() {
+        return statisticsInfo;
+    }
 
-//    protected abstract <T> void connectWithRetries(AbstractRequest<T> request, InternalResponse response)
-//            throws HttpClientException, HttpNetException, HttpServerException;
+    protected abstract <T> void connectWithRetries(AbstractRequest<T> request, InternalResponse response)
+            throws HttpClientException, HttpNetException, HttpServerException;
 
-//    public <T> Response<T> execute(AbstractRequest<T> request) {
-//        final InternalResponse<T> response = handleRequest(request);
-//        HttpException httpException = null;
-//        final HttpListener<T> listener = request.getHttpListener();
-//        final GlobalHttpListener globalListener = request.getGlobalHttpListener();
-//        try {
-//            if (HttpLog.isPrint) {
-//                Thread t = Thread.currentThread();
-//                HttpLog.i(TAG,
-//                        "lite http request: " + request.getFullUri()
-//                        + " , tag: " + request.getTag()
-//                        + " , method: " + request.getMethod()
-//                        + " , cache mode: " + request.getCacheMode()
-//                        + " , thread ID: " + t.getId()
-//                        + " , thread name: " + t.getName());
-//            }
-//            if (globalListener != null) {
-//                globalListener.notifyCallStart(request);
-//            }
-//            if (listener != null) {
-//                listener.notifyCallStart(request);
-//            }
-//            if(request.getCacheMode() == CacheMode.CacheOnly){
-//                tryHitCache(response);
-//                return response;
-//            }else if (request.getCacheMode() == CacheMode.CacheFirst && tryHitCache(response)) {
-//                return response;
-//            } else {
-//                tryToConnectNetwork(request, response);
-//            }
-//        } catch (HttpException e) {
-//            e.printStackTrace();
-//            httpException = e;
-//            response.setException(httpException);
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//            httpException = new HttpClientException(e);
-//            response.setException(httpException);
-//        } finally {
-//            try {
-//                if (HttpLog.isPrint) {
-//                    Thread t = Thread.currentThread();
-//                    HttpLog.i(TAG, "lite http response: " + request.getUri()
-//                                   + " , tag: " + request.getTag()
-//                                   + " , method: " + request.getMethod()
-//                                   + " , cache mode: " + request.getCacheMode()
-//                                   + " , thread ID: " + t.getId()
-//                                   + " , thread name: " + t.getName());
-//                }
-//                if (listener != null) {
-//                    if (request.isCancelledOrInterrupted()) {
-//                        listener.notifyCallCancel(response.getResult(), response);
-//                    } else if (httpException != null) {
-//                        listener.notifyCallFailure(httpException, response);
-//                    } else {
-//                        listener.notifyCallSuccess(response.getResult(), response);
-//                    }
-//                    listener.notifyCallEnd(response);
-//                }
-//                if (globalListener != null) {
-//                    if (request.isCancelledOrInterrupted()) {
-//                        globalListener.notifyCallCancel(response.getResult(), response);
-//                    } else if (httpException != null) {
-//                        globalListener.notifyCallFailure(httpException, response);
-//                    } else {
-//                        globalListener.notifyCallSuccess(response.getResult(), response);
-//                    }
-//                }
-//            } catch (Throwable e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return response;
-//    }
+    public <T> Response<T> execute(AbstractRequest<T> request) {
+        final InternalResponse<T> response = handleRequest(request);
+        HttpException httpException = null;
+        final HttpListener<T> listener = request.getHttpListener();
+        final GlobalHttpListener globalListener = request.getGlobalHttpListener();
+        try {
+            if (Log.isPrint) {
+                Thread t = Thread.currentThread();
+                Log.i(TAG,
+                        "lite http request: " + request.getFullUri()
+                        + " , tag: " + request.getTag()
+                        + " , method: " + request.getMethod()
+                        + " , cache mode: " + request.getCacheMode()
+                        + " , thread ID: " + t.getId()
+                        + " , thread name: " + t.getName());
+            }
+            if (globalListener != null) {
+                globalListener.notifyCallStart(request);
+            }
+            if (listener != null) {
+                listener.notifyCallStart(request);
+            }
+            if(request.getCacheMode() == CacheMode.CacheOnly){
+                tryHitCache(response);
+                return response;
+            }else if (request.getCacheMode() == CacheMode.CacheFirst && tryHitCache(response)) {
+                return response;
+            } else {
+                tryToConnectNetwork(request, response); // 链接
+            }
+        } catch (HttpException e) {
+            e.printStackTrace();
+            httpException = e;
+            response.setException(httpException);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            httpException = new HttpClientException(e);
+            response.setException(httpException);
+        } finally {
+            try {
+                if (Log.isPrint) {
+                    Thread t = Thread.currentThread();
+                    Log.i(TAG, "lite http response: " + request.getUri()
+                                   + " , tag: " + request.getTag()
+                                   + " , method: " + request.getMethod()
+                                   + " , cache mode: " + request.getCacheMode()
+                                   + " , thread ID: " + t.getId()
+                                   + " , thread name: " + t.getName());
+                }
+                if (listener != null) {
+                    if (request.isCancelledOrInterrupted()) {
+                        listener.notifyCallCancel(response.getResult(), response);
+                    } else if (httpException != null) {
+                        listener.notifyCallFailure(httpException, response);
+                    } else {
+                        listener.notifyCallSuccess(response.getResult(), response);
+                    }
+                    listener.notifyCallEnd(response);
+                }
+                if (globalListener != null) {
+                    if (request.isCancelledOrInterrupted()) {
+                        globalListener.notifyCallCancel(response.getResult(), response);
+                    } else if (httpException != null) {
+                        globalListener.notifyCallFailure(httpException, response);
+                    } else {
+                        globalListener.notifyCallSuccess(response.getResult(), response);
+                    }
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+        }
+        return response;
+    }
 
-//    public <T> void executeAsync(final AbstractRequest<T> request) {
-//        smartExecutor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                execute(request);
-//            }
-//        });
-//    }
+    public <T> void executeAsync(final AbstractRequest<T> request) {
+        smartExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                execute(request);
+            }
+        });
+    }
 
 //    public <T> Response<T> execute(HttpRichParamModel<T> model) {
 //        Type type = ((ParameterizedType) model.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -285,16 +327,16 @@ public abstract class LiteHttp {
 //        return execute(request).getResult();
 //    }
 
-//    public <T> FutureTask<T> performAsync(final AbstractRequest<T> request) {
-//        FutureTask<T> futureTask = new FutureTask<T>(new Callable<T>() {
-//            @Override
-//            public T call() throws Exception {
-//                return execute(request).getResult();
-//            }
-//        });
-//        smartExecutor.execute(futureTask);
-//        return futureTask;
-//    }
+    public <T> FutureTask<T> performAsync(final AbstractRequest<T> request) {
+        FutureTask<T> futureTask = new FutureTask<T>(new Callable<T>() {
+            @Override
+            public T call() throws Exception {
+                return execute(request).getResult();
+            }
+        });
+        smartExecutor.execute(futureTask);
+        return futureTask;
+    }
 
 //    public <T> Response<T> executeOrThrow(AbstractRequest<T> request) throws HttpException {
 //        final Response<T> response = execute(request);
@@ -340,114 +382,114 @@ public abstract class LiteHttp {
     /**
      * if some of request params is null or 0, set global default value to it.
      */
-//    protected <T> InternalResponse<T> handleRequest(AbstractRequest<T> request) {
-//        if (config.commonHeaders != null) {
-//            request.addHeader(config.commonHeaders);
-//        }
-//        if (request.getCacheMode() == null) {
-//            request.setCacheMode(config.defaultCacheMode);
-//        }
-//        if (request.getCacheDir() == null) {
-//            request.setCacheDir(config.defaultCacheDir);
-//        }
-//        if (request.getCacheExpireMillis() < 0) {
-//            request.setCacheExpireMillis(config.defaultCacheExpireMillis);
-//        }
-//        if (request.getCharSet() == null) {
-//            request.setCharSet(config.defaultCharSet);
-//        }
-//        if (request.getMethod() == null) {
-//            request.setMethod(config.defaultHttpMethod);
-//        }
-//        if (request.getMaxRedirectTimes() < 0) {
-//            request.setMaxRedirectTimes(config.defaultMaxRedirectTimes);
-//        }
-//        if (request.getMaxRetryTimes() < 0) {
-//            request.setMaxRetryTimes(config.defaultMaxRetryTimes);
-//        }
-//        if (request.getQueryBuilder() == null) {
-//            request.setQueryBuilder(config.defaultModelQueryBuilder);
-//        }
-//        if (config.globalHttpListener != null) {
-//            request.setGlobalHttpListener(config.globalHttpListener);
-//        }
-//        if (request.getSchemeHost() == null) {
-//            request.setSchemeHost(config.globalSchemeHost);
-//        }
-//        return new InternalResponse<T>(request);
-//    }
+    protected <T> InternalResponse<T> handleRequest(AbstractRequest<T> request) {
+        if (config.commonHeaders != null) {
+            request.addHeader(config.commonHeaders);
+        }
+        if (request.getCacheMode() == null) {
+            request.setCacheMode(config.defaultCacheMode);
+        }
+        if (request.getCacheDir() == null) {
+            request.setCacheDir(config.defaultCacheDir);
+        }
+        if (request.getCacheExpireMillis() < 0) {
+            request.setCacheExpireMillis(config.defaultCacheExpireMillis);
+        }
+        if (request.getCharSet() == null) {
+            request.setCharSet(config.defaultCharSet);
+        }
+        if (request.getMethod() == null) {
+            request.setMethod(config.defaultHttpMethod);
+        }
+        if (request.getMaxRedirectTimes() < 0) {
+            request.setMaxRedirectTimes(config.defaultMaxRedirectTimes);
+        }
+        if (request.getMaxRetryTimes() < 0) {
+            request.setMaxRetryTimes(config.defaultMaxRetryTimes);
+        }
+        if (request.getQueryBuilder() == null) {
+            request.setQueryBuilder(config.defaultModelQueryBuilder);
+        }
+        if (config.globalHttpListener != null) {
+            request.setGlobalHttpListener(config.globalHttpListener);
+        }
+        if (request.getSchemeHost() == null) {
+            request.setSchemeHost(config.globalSchemeHost);
+        }
+        return new InternalResponse<T>(request);
+    }
 
     /**
      * try to detect the network
      * <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
      */
-//    protected void tryToDetectNetwork() throws HttpClientException, HttpNetException {
-//        if (config.detectNetwork || config.disableNetworkFlags > 0) {
-//            if (config.context == null) {
-//                throw new HttpClientException(ClientException.ContextNeeded);
-//            }
-//            try {
-//                Network.NetType type = null;
-//                if (config.detectNetwork) {
-//                    type = Network.getConnectedType(config.context);
-//                    if (type == Network.NetType.None) {
-//                        throw new HttpNetException(NetException.NetworkNotAvilable);
-//                    }
-//                }
-//                if (config.disableNetworkFlags > 0) {
-//                    if (type == null) {
-//                        type = Network.getConnectedType(config.context);
-//                    }
-//                    if (type != null) {
-//                        if (config.isDisableAllNetwork() || config.isDisableNetwork(type.value)) {
-//                            throw new HttpNetException(NetException.NetworkDisabled);
-//                        }
-//                    } else {
-//                        HttpLog.e(TAG, "DisableNetwork but cant get network type !!!");
-//                    }
-//                }
-//            } catch (SecurityException e) {
-//                throw new HttpClientException(e, ClientException.PermissionDenied);
-//            }
-//        }
-//    }
+    protected void tryToDetectNetwork() throws HttpClientException, HttpNetException {
+        if (config.detectNetwork || config.disableNetworkFlags > 0) {
+            if (config.context == null) {
+                throw new HttpClientException(ClientException.ContextNeeded);
+            }
+            try {
+                Network.NetType type = null;
+                if (config.detectNetwork) {
+                    type = Network.getConnectedType(config.context);
+                    if (type == Network.NetType.None) {
+                        throw new HttpNetException(NetException.NetworkNotAvilable);
+                    }
+                }
+                if (config.disableNetworkFlags > 0) {
+                    if (type == null) {
+                        type = Network.getConnectedType(config.context);
+                    }
+                    if (type != null) {
+                        if (config.isDisableAllNetwork() || config.isDisableNetwork(type.value)) {
+                            throw new HttpNetException(NetException.NetworkDisabled);
+                        }
+                    } else {
+                        Log.e(TAG, "DisableNetwork but cant get network type !!!");
+                    }
+                }
+            } catch (SecurityException e) {
+                throw new HttpClientException(e, ClientException.PermissionDenied);
+            }
+        }
+    }
 
     /**
      * connect to network
      */
-//    protected <T> boolean tryToConnectNetwork(AbstractRequest<T> request, InternalResponse<T> response)
-//            throws HttpNetException, HttpClientException, HttpServerException, IOException {
-//        StatisticsListener statistic = null;
-//        if (config.doStatistics) {
-//            statistic = new StatisticsListener(response, statisticsInfo);
-//            response.setStatistics(statistic);
-//        }
-//        try {
-//            if (statistic != null) {
-//                statistic.onStart(request);
-//            }
-//            if (!request.isCancelledOrInterrupted()) {
-//                if (HttpLog.isPrint) {
-//                    HttpLog.v(TAG, "lite http try to connect network...  url: " + request.getUri()
-//                                   + "  tag: " + request.getTag());
-//                }
-//                tryToDetectNetwork();
-//                connectWithRetries(request, response);
-//                tryToKeepCacheInMemory(response);
-//                return true;
-//            }
-//        } finally {
-//            if (statistic != null) {
-//                statistic.onEnd(response);
-//            }
-//            if (request.getCacheMode() == CacheMode.NetFirst
-//                && !response.isResultOk()
-//                && !request.isCancelledOrInterrupted()) {
-//                tryHitCache(response);
-//            }
-//        }
-//        return false;
-//    }
+    protected <T> boolean tryToConnectNetwork(AbstractRequest<T> request, InternalResponse<T> response)
+            throws HttpNetException, HttpClientException, HttpServerException, IOException {
+        StatisticsListener statistic = null;
+        if (config.doStatistics) {
+            statistic = new StatisticsListener(response, statisticsInfo);
+            response.setStatistics(statistic);
+        }
+        try {
+            if (statistic != null) {
+                statistic.onStart(request);
+            }
+            if (!request.isCancelledOrInterrupted()) {
+                if (Log.isPrint) {
+                    Log.v(TAG, "lite http try to connect network...  url: " + request.getUri()
+                                   + "  tag: " + request.getTag());
+                }
+                tryToDetectNetwork();
+                connectWithRetries(request, response);
+                tryToKeepCacheInMemory(response);
+                return true;
+            }
+        } finally {
+            if (statistic != null) {
+                statistic.onEnd(response);
+            }
+            if (request.getCacheMode() == CacheMode.NetFirst
+                && !response.isResultOk()
+                && !request.isCancelledOrInterrupted()) {
+                tryHitCache(response);
+            }
+        }
+        return false;
+    }
 
     /**
      * Multi-Level cache design.
@@ -457,100 +499,100 @@ public abstract class LiteHttp {
      * <li>Network</li>
      * </ul>
      */
-//    @SuppressWarnings("unchecked")
-//    protected <T> boolean tryHitCache(InternalResponse<T> response) throws IOException {
-//        AbstractRequest<T> request = response.getRequest();
-//        String key = request.getCacheKey();
-//        long expire = request.getCacheExpireMillis();
-//        boolean isMemCacheSupport = request.getDataParser().isMemCacheSupport();
-//
-//        // 1. try to hit memory cache
-//        if (isMemCacheSupport) {
-//            HttpCache<T> cache = (HttpCache<T>) memCache.get(key);
-//            if (cache != null) {
-//                if (expire < 0 || expire > getCurrentTimeMillis() - cache.time) {
-//                    // memory hit!
-//                    request.getDataParser().readFromMemoryCache(cache.data);
-//                    response.setCacheHit(true);
-//                    if (HttpLog.isPrint) {
-//                        HttpLog.i(TAG, "lite-http mem cache hit!  "
-//                                       + "  url:" + request.getUri()
-//                                       + "  tag:" + request.getTag()
-//                                       + "  key:" + key
-//                                       + "  cache time:" + HttpUtil.formatDate(cache.time)
-//                                       + "  expire: " + expire);
-//                    }
-//                    return true;
-//                }
-//            }
-//        }
-//
-//        // 2. try to hit disk cache
-//        File file = request.getCachedFile();
-//        if (file.exists()) {
-//            if (expire < 0 || expire > getCurrentTimeMillis() - file.lastModified()) {
-//                // disk hit!
-//                request.getDataParser().readFromDiskCache(file);
-//                response.setCacheHit(true);
-//                if (HttpLog.isPrint) {
-//                    HttpLog.i(TAG, "lite-http disk cache hit!  "
-//                                   + "  url:" + request.getUri()
-//                                   + "  tag:" + request.getTag()
-//                                   + "  key:" + key
-//                                   + "  cache time:" + HttpUtil.formatDate(file.lastModified())
-//                                   + "  expire: " + expire);
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    @SuppressWarnings("unchecked")
+    protected <T> boolean tryHitCache(InternalResponse<T> response) throws IOException {
+        AbstractRequest<T> request = response.getRequest();
+        String key = request.getCacheKey();
+        long expire = request.getCacheExpireMillis();
+        boolean isMemCacheSupport = request.getDataParser().isMemCacheSupport();
+
+        // 1. try to hit memory cache
+        if (isMemCacheSupport) {
+            HttpCache<T> cache = (HttpCache<T>) memCache.get(key);
+            if (cache != null) {
+                if (expire < 0 || expire > getCurrentTimeMillis() - cache.time) {
+                    // memory hit!
+                    request.getDataParser().readFromMemoryCache(cache.data);
+                    response.setCacheHit(true);
+                    if (Log.isPrint) {
+                        Log.i(TAG, "lite-http mem cache hit!  "
+                                       + "  url:" + request.getUri()
+                                       + "  tag:" + request.getTag()
+                                       + "  key:" + key
+                                       + "  cache time:" + HttpUtil.formatDate(cache.time)
+                                       + "  expire: " + expire);
+                    }
+                    return true;
+                }
+            }
+        }
+
+        // 2. try to hit disk cache
+        File file = request.getCachedFile();
+        if (file.exists()) {
+            if (expire < 0 || expire > getCurrentTimeMillis() - file.lastModified()) {
+                // disk hit!
+                request.getDataParser().readFromDiskCache(file);
+                response.setCacheHit(true);
+                if (Log.isPrint) {
+                    Log.i(TAG, "lite-http disk cache hit!  "
+                                   + "  url:" + request.getUri()
+                                   + "  tag:" + request.getTag()
+                                   + "  key:" + key
+                                   + "  cache time:" + HttpUtil.formatDate(file.lastModified())
+                                   + "  expire: " + expire);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * try to save data into cache
      */
-//    protected <T> boolean tryToKeepCacheInMemory(InternalResponse<T> response) {
-//        AbstractRequest<T> request = response.getRequest();
-//        if (request.isCachedModel()) {
-//            DataParser<T> dataParser = request.getDataParser();
-//            if (HttpLog.isPrint) {
-//                HttpLog.v(TAG, "lite http try to keep cache.. maximum cache len: " + config.maxMemCacheBytesSize
-//                               + "   now cache len: " + memCachedSize.get()
-//                               + "   wanna put len: " + dataParser.getReadedLength()
-//                               + "   url: " + request.getUri()
-//                               + "   tag: " + request.getTag());
-//            }
-//            if (dataParser.isMemCacheSupport()) {
-//                if (memCachedSize.get() + dataParser.getReadedLength() > config.maxMemCacheBytesSize) {
-//                    clearMemCache();
-//                    if (HttpLog.isPrint) {
-//                        HttpLog.i(TAG, "lite http cache full ______________ and clear all mem cache success");
-//                    }
-//                }
-//                if (dataParser.getReadedLength() < config.maxMemCacheBytesSize) {
-//                    HttpCache<T> cache = new HttpCache<T>();
-//                    cache.time = getCurrentTimeMillis();
-//                    cache.key = request.getCacheKey();
-//                    cache.charSet = response.getCharSet();
-//                    cache.data = dataParser.getData();
-//                    cache.length = dataParser.getReadedLength();
-//                    synchronized (lock) {
-//                        memCache.put(cache.key, cache);
-//                        memCachedSize.addAndGet(cache.length);
-//                        if (HttpLog.isPrint) {
-//                            HttpLog.v(TAG, "lite http keep mem cache success, "
-//                                           + "   url: " + request.getUri()
-//                                           + "   tag: " + request.getTag()
-//                                           + "   key: " + cache.key
-//                                           + "   len: " + cache.length);
-//                        }
-//                    }
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    protected <T> boolean tryToKeepCacheInMemory(InternalResponse<T> response) {
+        AbstractRequest<T> request = response.getRequest();
+        if (request.isCachedModel()) {
+            DataParser<T> dataParser = request.getDataParser();
+            if (Log.isPrint) {
+                Log.v(TAG, "lite http try to keep cache.. maximum cache len: " + config.maxMemCacheBytesSize
+                               + "   now cache len: " + memCachedSize.get()
+                               + "   wanna put len: " + dataParser.getReadedLength()
+                               + "   url: " + request.getUri()
+                               + "   tag: " + request.getTag());
+            }
+            if (dataParser.isMemCacheSupport()) {
+                if (memCachedSize.get() + dataParser.getReadedLength() > config.maxMemCacheBytesSize) {
+                    clearMemCache();
+                    if (Log.isPrint) {
+                        Log.i(TAG, "lite http cache full ______________ and clear all mem cache success");
+                    }
+                }
+                if (dataParser.getReadedLength() < config.maxMemCacheBytesSize) {
+                    HttpCache<T> cache = new HttpCache<T>();
+                    cache.time = getCurrentTimeMillis();
+                    cache.key = request.getCacheKey();
+                    cache.charSet = response.getCharSet();
+                    cache.data = dataParser.getData();
+                    cache.length = dataParser.getReadedLength();
+                    synchronized (lock) {
+                        memCache.put(cache.key, cache);
+                        memCachedSize.addAndGet(cache.length);
+                        if (Log.isPrint) {
+                            Log.v(TAG, "lite http keep mem cache success, "
+                                           + "   url: " + request.getUri()
+                                           + "   tag: " + request.getTag()
+                                           + "   key: " + cache.key
+                                           + "   len: " + cache.length);
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 
 //    public final long cleanCacheForRequest(AbstractRequest request) {
 //        long len = 0;
