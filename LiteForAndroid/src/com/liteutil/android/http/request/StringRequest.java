@@ -1,7 +1,7 @@
 package com.liteutil.android.http.request;
 
 import com.liteutil.android.http.parser.DataParser;
-import com.liteutil.android.http.parser.StringParser;
+import com.liteutil.android.http.parser.impl.StringParser;
 import com.liteutil.android.http.request.param.HttpParamModel;
 
 /**

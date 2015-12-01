@@ -9,6 +9,7 @@ import com.liteutil.android.http.request.AbstractRequest;
  * @date 14-7-29
  */
 public abstract class HttpBody {
+	
     protected HttpListener httpListener;
     protected AbstractRequest request;
     public String contentType;

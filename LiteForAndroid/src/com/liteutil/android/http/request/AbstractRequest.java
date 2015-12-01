@@ -48,6 +48,7 @@ import com.liteutil.android.util.UriUtil;
  *         2014-1-1下午9:51:59
  */
 public abstract class AbstractRequest<T> {
+	
     private static final String TAG = AbstractRequest.class.getSimpleName();
     private static final String ENCODE_PATTERN_URL = "^.+\\?(%[0-9a-fA-F]+|[=&A-Za-z0-9_#\\-\\.\\*])*$";
     /**
@@ -149,7 +150,7 @@ public abstract class AbstractRequest<T> {
      *
      * such as:
      * {@link com.litesuits.http.parser.impl.BytesParser}
-     * {@link com.litesuits.http.parser.impl.StringParser}
+     * {@link com.liteutil.android.http.parser.impl.litesuits.http.parser.impl.StringParser}
      * {@link com.litesuits.http.parser.impl.FileParser}
      * {@link com.litesuits.http.parser.impl.BitmapParser}
      * {@link com.litesuits.http.parser.impl.JsonParser}

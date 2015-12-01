@@ -9,6 +9,7 @@ import com.liteutil.android.http.data.Consts;
  * @date 14-7-29
  */
 public class StringBody extends HttpBody {
+	
     public String string;
     public String charset;
 

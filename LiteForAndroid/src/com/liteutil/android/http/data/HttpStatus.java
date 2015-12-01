@@ -241,6 +241,8 @@ public class HttpStatus {
 //     * 源站没有返回响应头部，只返回实体内容
 //     */
 //    public static final String STATUS_600 = "只有消息体，没有返回响应头";
+	
+	
     private int code;
     private String des;
     private String chiDes;

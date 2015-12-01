@@ -262,10 +262,9 @@ public class ApacheHttpClient extends LiteHttp{
     @Override
     protected <T> void connectWithRetries(AbstractRequest<T> request, InternalResponse response)
             throws HttpClientException, HttpNetException, HttpServerException {
-
-        //if(true) {
-        //    throw new HttpNetException(NetException.NetworkDisabled);
-        //}
+//        if(true) {
+//            throw new HttpNetException(NetException.NetworkDisabled);
+//        }
 
         // 1. create apache request
         final HttpUriRequest apacheRequest = createApacheRequest(request);

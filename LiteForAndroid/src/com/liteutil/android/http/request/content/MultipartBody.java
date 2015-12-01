@@ -5,6 +5,12 @@ import java.io.*;
 import java.util.LinkedList;
 
 import com.liteutil.android.http.data.Consts;
+import com.liteutil.android.http.request.content.multi.AbstractPart;
+import com.liteutil.android.http.request.content.multi.BoundaryCreater;
+import com.liteutil.android.http.request.content.multi.BytesPart;
+import com.liteutil.android.http.request.content.multi.FilePart;
+import com.liteutil.android.http.request.content.multi.InputStreamPart;
+import com.liteutil.android.http.request.content.multi.StringPart;
 
 /**
  * @author MaTianyu
@@ -87,7 +93,7 @@ public class MultipartBody extends HttpBody {
     }
 
     @SuppressWarnings("unchecked")
-    protected void updateProgress(long count) {
+    public void updateProgress(long count) {
         bytesWritten += count;
         if (httpListener != null) {
             httpListener.notifyCallUploading(request, totalSize, bytesWritten);

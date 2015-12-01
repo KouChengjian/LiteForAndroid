@@ -1,8 +1,10 @@
-package com.liteutil.android.http.parser;
+package com.liteutil.android.http.parser.impl;
 
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import com.liteutil.android.http.parser.MemCacheableParser;
 
 /**
  * parse inputstream to string.

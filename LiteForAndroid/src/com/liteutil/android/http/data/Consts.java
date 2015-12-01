@@ -39,7 +39,7 @@ public class Consts {
     public static final String CONN_CLOSE = "Close";
     public static final String CONN_KEEP_ALIVE = "Keep-Alive";
 
-    public static final String DEFAULT_CHARSET = Charsets.UTF_8;
+    public static final String DEFAULT_CHARSET = Charsets.UTF_8; // 默认编码
     public final static String CHARSET_PARAM = "; charset=";
     public final static String BOUNDARY_PARAM = "; boundary=";
     public static final String MIME_TYPE_TEXT = "text/plain";

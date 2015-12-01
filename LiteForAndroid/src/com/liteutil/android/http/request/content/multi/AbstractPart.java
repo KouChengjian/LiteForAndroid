@@ -1,6 +1,7 @@
-package com.liteutil.android.http.request.content;
+package com.liteutil.android.http.request.content.multi;
 
 import com.liteutil.android.http.data.Consts;
+import com.liteutil.android.http.request.content.MultipartBody;
 import com.liteutil.android.util.StringCodingUtils;
 
 import java.io.ByteArrayOutputStream;

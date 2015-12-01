@@ -19,17 +19,17 @@ import com.liteutil.android.util.Log;
  */
 public class InternalResponse<T> implements Response<T> {
     private static final String TAG = InternalResponse.class.getSimpleName();
-    protected String charSet = Consts.DEFAULT_CHARSET;
+    protected String charSet = Consts.DEFAULT_CHARSET; // 编码
     protected HttpStatus httpStatus;
-    protected int retryTimes;
-    protected int redirectTimes;
-    protected long readedLength;
-    protected long contentLength;
-    protected long useTime;
-    protected NameValuePair[] headers;
-    protected AbstractRequest<T> request;
-    protected StatisticsListener statistics;
-    protected HttpException exception;
+    protected int retryTimes; // 重操作时间
+    protected int redirectTimes; // 重定向时间
+    protected long readedLength; // 读取长度
+    protected long contentLength; // 内容长度
+    protected long useTime; // 利用时间
+    protected NameValuePair[] headers; // 头部参数
+    protected AbstractRequest<T> request; // 请求
+    protected StatisticsListener statistics; // 统计监听
+    protected HttpException exception; // 异常捕获
     protected boolean isCacheHit;
     protected Object tag;
 
