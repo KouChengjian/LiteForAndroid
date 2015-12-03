@@ -10,6 +10,5 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src-gons2.2.4"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

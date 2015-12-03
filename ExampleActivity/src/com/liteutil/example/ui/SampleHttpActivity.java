@@ -4,38 +4,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import java.util.concurrent.FutureTask;
 
-import com.liteutil.android.http.response.Response;
-import com.liteutil.android.http.HttpConfig;
-import com.liteutil.android.http.LiteHttp;
-import com.liteutil.android.http.exception.HttpException;
-import com.liteutil.android.http.listener.HttpListener;
-import com.liteutil.android.http.request.StringRequest;
-import com.liteutil.android.http.request.param.HttpMethods;
-import com.liteutil.android.util.HttpUtil;
+
+
+
+
+
+
+
+
+
+
+
+
+import com.liteutil.android.LiteHttp;
+
+
+import com.liteutil.android.exception.HttpException;
+import com.liteutil.android.http.listener.Callback;
+import com.liteutil.android.http.request.params.RequestParams;
+import com.liteutil.example.bean.BaiduParams;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 /**
  * @ClassName: SampleHttpActivity
- * @Description: httpÇëÇó
+ * @Description: httpè¯·æ±‚
  * @author: KCJ
  * @date: 2015-11-28
  */
 public class SampleHttpActivity extends Activity implements OnItemClickListener{
 
 	private ListView listView;
-	private LiteHttp liteHttp;
 	private Activity activity;
 	
-	private boolean needRestore;
 	
 	public static final String url = "http://baidu.com";
 	
@@ -49,21 +58,21 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 		listView.setOnItemClickListener(this);
 		
 		activity = this;
-		liteHttp = LiteHttp.newApacheHttpClient(null);
 	}
 	
 	private List<String> getData() {
 		List<String> data = new ArrayList<String>();
-		data.add("0. ¿ìËÙÅäÖÃ");
-		data.add("1. Òì²½ÇëÇó");
-		data.add("2. Í¬²½ÇëÇó");
-		data.add("3. ¼òµ¥Í¬²½ÇëÇó");
-		data.add("4. Å×³öÒì³£ÇëÇó");
-		data.add("9. ÎÄ¼şÉÏ´«");
-		data.add("10. ÎÄ¼ş/Í¼Æ¬ÏÂÔØ");
-		data.add("11. ½ûÖ¹Ò»Ğ©ÍøÂç·ÃÎÊ");
-		data.add("20. ¶à»º´æ»úÖÆ");
-		data.add("21. »Øµ÷»úÖÆ");
+		data.add("0. è¯·æ±‚");
+//		data.add("0. å¿«é€Ÿé…ç½®");
+//		data.add("1. å¼‚æ­¥è¯·æ±‚");
+//		data.add("2. åŒæ­¥è¯·æ±‚");
+//		data.add("3. ç®€å•åŒæ­¥è¯·æ±‚");
+//		data.add("4. æŠ›å‡ºå¼‚å¸¸è¯·æ±‚");
+//		data.add("9. æ–‡ä»¶ä¸Šä¼ ");
+//		data.add("10. æ–‡ä»¶/å›¾ç‰‡ä¸‹è½½");
+//		data.add("11. ç¦æ­¢ä¸€äº›ç½‘ç»œè®¿é—®");
+//		data.add("20. å¤šç¼“å­˜æœºåˆ¶");
+//		data.add("21. å›è°ƒæœºåˆ¶");
 		return data;
 	}
 	
@@ -72,61 +81,72 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 		clickTestItem(pos);
 	}
 	
-	private void initLiteHttp() {
-		if (liteHttp == null) {
-            HttpConfig config = new HttpConfig(activity) // configuration quickly
-                    .setDebugged(true)                   // log output when debugged
-                    .setDetectNetwork(true)              // detect network before connect
-                    .setDoStatistics(true)               // statistics of time and traffic
-                    .setUserAgent("Mozilla/5.0 (...)")   // set custom User-Agent
-                    .setTimeOut(10000, 10000);             // connect and socket timeout: 10s
-            liteHttp = LiteHttp.newApacheHttpClient(config);
-        } else {
-            liteHttp.getConfig()                        // configuration directly
-                    .setDebugged(true)                  // log output when debugged
-                    .setDetectNetwork(true)             // detect network before connect
-                    .setDoStatistics(true)              // statistics of time and traffic
-                    .setUserAgent("Mozilla/5.0 (...)")  // set custom User-Agent
-                    .setTimeOut(10000, 10000);            // connect and socket timeout: 10s
-        }
-    }
-
 	private void clickTestItem(final int which) {
-		if (needRestore) {
-		    liteHttp.getConfig().restoreToDefault();
-		    needRestore = false;
-		}
 		switch (which) {
 		case 0:
-			initLiteHttp();
-			HttpUtil.showTips(activity, "LiteHttp2.0", "Init Config Success!");
-			break;
-		case 1:
-			// 1. Asynchronous Request Í¬²½ÇëÇó
-			// 1.1 init request ³õÊ¼»¯ÇëÇó
-			final StringRequest request = new StringRequest(url).setHttpListener(new HttpListener<String>() {
-				@Override
-				public void onSuccess(String s,Response<String> response) {
-					HttpUtil.showTips(activity, "String", s);
-					response.printInfo();
-				}
-
-				@Override
-				public void onFailure(HttpException e,Response<String> response) {
-					HttpUtil.showTips(activity, "HttpException",e.toString());
-				}
-			});
-			// 1.2 execute async, nothing returned.
-			liteHttp.executeAsync(request);
-			// 1.3 perform async, future task returned.
-//			FutureTask<String> task = liteHttp.performAsync(request);// ¿ÉÒÔÈ¡Ïû
-//			task.cancel(false);
+			onTest1Click();
 			break;
 
+		default:
+			break;
 		}
 	}
 	
-	
+	/**
+     * è‡ªå®šä¹‰å®ä½“å‚æ•°ç±»è¯·å‚è€ƒ:
+     * è¯·æ±‚æ³¨è§£ {@link org.xutils.http.annotation.HttpRequest}
+     * è¯·æ±‚æ³¨è§£å¤„ç†æ¨¡æ¿æ¥å£ {@link org.xutils.http.app.ParamsBuilder}
+     *
+     * éœ€è¦è‡ªå®šä¹‰ç±»å‹ä½œä¸ºcallbackçš„æ³›å‹æ—¶, å‚è€ƒ:
+     * å“åº”æ³¨è§£ {@link org.xutils.http.annotation.HttpResponse}
+     * å“åº”æ³¨è§£å¤„ç†æ¨¡æ¿æ¥å£ {@link org.xutils.http.app.ResponseParser}
+     *
+     * ç¤ºä¾‹: æŸ¥çœ‹ org.xutils.sample.http åŒ…é‡Œçš„ä»£ç 
+     */
+	public void onTest1Click(){
+//		BaiduParams params = new BaiduParams();
+//      params.wd = "xUtils";
+		RequestParams params = new RequestParams("https://www.baidu.com");
+        // æœ‰ä¸Šä¼ æ–‡ä»¶æ—¶ä½¿ç”¨multipartè¡¨å•, å¦åˆ™ä¸Šä¼ åŸå§‹æ–‡ä»¶æµ.
+        // params.setMultipart(true);
+        // ä¸Šä¼ æ–‡ä»¶æ–¹å¼ 1
+        // params.uploadFile = new File("/sdcard/test.txt");
+        // ä¸Šä¼ æ–‡ä»¶æ–¹å¼ 2
+        // params.addBodyParameter("uploadFile", new File("/sdcard/test.txt"));
+        Callback.Cancelable cancelable = LiteHttp.http().get(params,new Callback.CommonCallback<String>(){
+
+			@Override
+			public void onSuccess(String result) {
+				Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+				Toast.makeText(activity, ex.getMessage(), Toast.LENGTH_LONG).show();
+                if (ex instanceof HttpException) { // ç½‘ç»œé”™è¯¯
+                    HttpException httpEx = (HttpException) ex;
+                    int responseCode = httpEx.getCode();
+                    String responseMsg = httpEx.getMessage();
+                    String errorResult = httpEx.getResult();
+                    // ...
+                } else { // å…¶ä»–é”™è¯¯
+                    // ...
+                }
+			}
+
+			@Override
+			public void onCancelled(CancelledException cex) {
+				Toast.makeText(activity, "cancelled", Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onFinished() {
+				
+			}
+        });
+        
+        cancelable.cancel();
+	}
 	
 	
 }
