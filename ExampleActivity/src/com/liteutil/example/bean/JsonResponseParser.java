@@ -2,8 +2,8 @@ package com.liteutil.example.bean;
 
 import java.lang.reflect.Type;
 
-import com.liteutil.android.http.request.UriRequest;
-import com.liteutil.android.http.response.ResponseParser;
+import com.liteutil.http.request.UriRequest;
+import com.liteutil.http.response.ResponseParser;
 
 /**
  * Created by wyouflf on 15/11/5.

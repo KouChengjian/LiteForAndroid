@@ -2,7 +2,7 @@ package com.liteutil.example;
 
 
 
-import com.liteutil.android.LiteHttp;
+import com.liteutil.LiteHttp;
 
 import android.app.Application;
 

@@ -1,6 +1,6 @@
 package com.liteutil.example.bean;
 
-import com.liteutil.android.annotation.HttpResponse;
+import com.liteutil.annotation.HttpResponse;
 
 /**
  * Created by wyouflf on 15/11/5.

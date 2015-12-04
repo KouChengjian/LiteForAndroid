@@ -4,9 +4,9 @@ package com.liteutil.example.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liteutil.android.annotation.HttpRequest;
-import com.liteutil.android.http.request.params.DefaultParamsBuilder;
-import com.liteutil.android.http.request.params.RequestParams;
+import com.liteutil.annotation.HttpRequest;
+import com.liteutil.http.request.DefaultParamsBuilder;
+import com.liteutil.http.request.RequestParams;
 
 /**
  * Created by wyouflf on 15/11/4.
