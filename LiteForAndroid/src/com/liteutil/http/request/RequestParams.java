@@ -589,7 +589,6 @@ public class RequestParams {
         } else if (bodyParams != null && bodyParams.size() > 0) {
             result = new UrlEncodedParamsBody(bodyParams, charset);
         }
-
         return result;
     }
 
