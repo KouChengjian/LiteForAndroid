@@ -8,9 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.liteutil.LiteHttp;
 import com.liteutil.bean.DiskCacheEntity;
 import com.liteutil.bean.LruDiskCache;
+import com.liteutil.http.LiteHttp;
 import com.liteutil.http.request.loader.InputStreamLoader;
 import com.liteutil.util.IOUtil;
 import com.liteutil.util.Log;

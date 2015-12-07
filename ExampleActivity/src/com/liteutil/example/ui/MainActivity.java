@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements OnItemClickListener{
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		switch (arg2) {
 		case 0:
-//			startAnimActivity(SampleOrmActivity.class);
+			startAnimActivity(SampleOrmActivity.class);
 			break;
 		case 1:
 			startAnimActivity(SampleHttpActivity.class);

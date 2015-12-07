@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.liteutil.LiteHttp;
+import com.liteutil.http.LiteHttp;
 
 public class FileUtil {
 

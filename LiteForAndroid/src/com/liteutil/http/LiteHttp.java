@@ -1,10 +1,9 @@
-package com.liteutil;
+package com.liteutil.http;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
-import com.liteutil.http.HttpManagerImpl;
 import com.liteutil.http.task.TaskControllerImpl;
 
 import android.content.Context;

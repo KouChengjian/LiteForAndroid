@@ -1,4 +1,4 @@
-package com.liteutil.example.bean;
+package com.liteutil.example.http;
 
 import com.liteutil.annotation.HttpResponse;
 

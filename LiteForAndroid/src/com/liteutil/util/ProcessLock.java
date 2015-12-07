@@ -14,7 +14,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.liteutil.LiteHttp;
+import com.liteutil.http.LiteHttp;
 
 /**
  * 进程间锁, 仅在同一个应用中有效.

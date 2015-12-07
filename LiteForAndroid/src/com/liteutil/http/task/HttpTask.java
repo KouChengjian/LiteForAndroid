@@ -6,9 +6,9 @@ import java.lang.reflect.Type;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.liteutil.LiteHttp;
 import com.liteutil.exception.HttpException;
 import com.liteutil.http.HttpMethod;
+import com.liteutil.http.LiteHttp;
 import com.liteutil.http.listener.Callback;
 import com.liteutil.http.listener.InterceptRequestListener;
 import com.liteutil.http.listener.RedirectHandler;

@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import com.liteutil.LiteHttp;
+import com.liteutil.http.LiteHttp;
 import com.liteutil.http.request.loader.Loader;
 import com.liteutil.http.request.loader.LoaderFactory;
 import com.liteutil.http.task.ProgressHandler;

@@ -1,7 +1,7 @@
 package com.liteutil.util;
 
 
-import com.liteutil.LiteHttp;
+import com.liteutil.http.LiteHttp;
 
 import android.content.Context;
 import android.content.res.Resources;

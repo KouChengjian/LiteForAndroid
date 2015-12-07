@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import android.text.TextUtils;
 
-import com.liteutil.LiteHttp;
 import com.liteutil.http.listener.Callback;
 import com.liteutil.http.request.RequestParams;
 import com.liteutil.http.task.HttpTask;

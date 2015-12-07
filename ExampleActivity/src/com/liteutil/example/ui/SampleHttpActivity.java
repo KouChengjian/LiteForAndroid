@@ -1,9 +1,13 @@
 package com.liteutil.example.ui;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,10 +15,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.liteutil.LiteHttp;
+import com.liteutil.http.*;
+import com.liteutil.example.http.BaiduParams;
+import com.liteutil.example.http.download.DownloadActivity;
 import com.liteutil.exception.HttpException;
 import com.liteutil.http.listener.Callback;
+import com.liteutil.http.listener.Callback.CommonCallback;
 import com.liteutil.http.request.RequestParams;
 
 /**
@@ -157,8 +163,144 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 				
 			}
         });
-//        cancelable.cancel();
+//        cancelable.cancel(); // 取消s
+        // 如果需要记录请求的日志, 可使用RequestTracker接口(优先级依次降低, 找到一个实现后会忽略后面的):
+        // 1. 自定义Callback同时实现RequestTracker接口;
+        // 2. 自定义ResponseParser同时实现RequestTracker接口;
+        // 3. 在LoaderFactory注册.
 	}
 	
+	/**
+	 * 上传多文件示例
+	 * @throws FileNotFoundException
+	 */
 	
+	private void onTest2Click() throws FileNotFoundException {
+		RequestParams params = new RequestParams("http://192.168.0.13:8080/upload");
+        // 加到url里的参数, http://xxxx/s?wd=xUtils
+        params.addQueryStringParameter("wd", "xUtils");
+        // 添加到请求body体的参数, 只有POST, PUT, PATCH, DELETE请求支持.
+        // params.addBodyParameter("wd", "xUtils");
+        // 使用multipart表单上传文件
+        params.setMultipart(true);
+        params.addBodyParameter(
+                "file",
+                new File("/sdcard/test.jpg"),
+                null); // 如果文件没有扩展名, 最好设置contentType参数.
+        params.addBodyParameter(
+                "file2",
+                new FileInputStream(new File("/sdcard/test2.jpg")),
+                "image/jpeg",
+                // 测试中文文件名
+                "你+& \" 好.jpg"); // InputStream参数获取不到文件名, 最好设置, 除非服务端不关心这个参数.
+        LiteHttp.http().post(params, new CommonCallback<String>() {
+
+			@Override
+			public void onSuccess(String result) {
+				Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+				Toast.makeText(activity, ex.getMessage(), Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onCancelled(CancelledException cex) {
+				Toast.makeText(activity, "cancelled", Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onFinished() {
+				
+			}
+		});
+	}
+	
+	/**
+	 * 打开下载列表
+	 * @throws FileNotFoundException
+	 */
+	private void onTest4Click(){
+        startActivity(new Intent(activity, DownloadActivity.class));
+    }
+	
+	// 添加到下载列表
+    private void onTest3Click(View view)   {
+        for (int i = 0; i < 5; i++) {
+            String url = "";
+            String label = i + "xUtils_" + System.nanoTime();
+//            DownloadService.getDownloadManager().startDownload(url, label,"/sdcard/xUtils/" + label + ".aar", true, false, null);
+        }
+    }
+    
+    /**
+     * 缓存示例, 更复杂的例子参考 {@link org.xutils.image.ImageLoader}
+     */
+    private void onTest5Click(View view) throws FileNotFoundException {
+    	BaiduParams params = new BaiduParams();
+        params.wd = "xUtils";
+        // 默认缓存存活时间, 单位:毫秒.(如果服务没有返回有效的max-age或Expires)
+        params.setCacheMaxAge(1000 * 60);
+        Callback.Cancelable cancelable
+        // 使用CacheCallback, xUtils将为该请求缓存数据.
+        = LiteHttp.http().get(params, new Callback.CacheCallback<String>() {
+
+        	private boolean hasError = false;
+            private String result = null;
+        	
+			@Override
+			public void onSuccess(String result) {
+				// 注意: 如果服务返回304或 onCache 选择了信任缓存, 这里将不会被调用,
+                // 但是 onFinished 总会被调用.
+                this.result = result;
+			}
+
+			@Override
+			public void onError(Throwable ex, boolean isOnCallback) {
+				hasError = true;
+                Toast.makeText(activity, ex.getMessage(), Toast.LENGTH_LONG).show();
+                if (ex instanceof HttpException) { // 网络错误
+                    HttpException httpEx = (HttpException) ex;
+                    int responseCode = httpEx.getCode();
+                    String responseMsg = httpEx.getMessage();
+                    String errorResult = httpEx.getResult();
+                    // ...
+                } else { // 其他错误
+                    // ...
+                }
+			}
+
+			@Override
+            public void onCancelled(CancelledException cex) {
+                Toast.makeText(activity, "cancelled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFinished() {
+                if (!hasError && result != null) {
+                    // 成功获取数据
+                    Toast.makeText(activity, result, Toast.LENGTH_LONG).show();
+                }
+            }
+
+			@Override
+			public boolean onCache(String result) {
+				// 得到缓存数据, 缓存过期后不会进入这个方法.
+                // 如果服务端没有返回过期时间, 参考params.setCacheMaxAge(maxAge)方法.
+                //
+                // * 客户端会根据服务端返回的 header 中 max-age 或 expires 来确定本地缓存是否给 onCache 方法.
+                //   如果服务端没有返回 max-age 或 expires, 那么缓存将一直保存, 除非这里自己定义了返回false的
+                //   逻辑, 那么xUtils将请求新数据, 来覆盖它.
+                //
+                // * 如果信任该缓存返回 true, 将不再请求网络;
+                //   返回 false 继续请求网络, 但会在请求头中加上ETag, Last-Modified等信息,
+                //   如果服务端返回304, 则表示数据没有更新, 不继续加载数据.
+                //
+                this.result = result;
+                return false; // true: 信任缓存数据, 不在发起网络请求; false不信任缓存数据.
+			}
+        	
+        });
+    }
 }
