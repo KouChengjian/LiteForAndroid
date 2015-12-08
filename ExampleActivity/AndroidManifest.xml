@@ -34,6 +34,12 @@
             android:name=".ui.SampleOrmActivity"/>
         <activity 
             android:name=".ui.SampleHttpActivity"/>
+        <activity 
+            android:name=".http.download.DownloadActivity"/>
+        
+        <service
+            android:name=".http.download.DownloadService"
+            android:process=":dl" />
     </application>
 
 </manifest>

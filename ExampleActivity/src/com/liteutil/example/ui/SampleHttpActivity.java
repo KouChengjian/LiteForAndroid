@@ -15,9 +15,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.liteutil.http.*;
+import com.liteutil.example.DownloadService;
 import com.liteutil.example.http.BaiduParams;
 import com.liteutil.example.http.download.DownloadActivity;
+import com.liteutil.exception.DbException;
 import com.liteutil.exception.HttpException;
 import com.liteutil.http.listener.Callback;
 import com.liteutil.http.listener.Callback.CommonCallback;
@@ -51,7 +54,10 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 	
 	private List<String> getData() {
 		List<String> data = new ArrayList<String>();
-		data.add("0. 请求");
+		data.add("1. 请求");
+		data.add("2. 上传");
+		data.add("3. 下载界面");
+		data.add("4. 下载");
 //		data.add("0. 快速配置");
 //		data.add("1. 异步请求");
 //		data.add("2. 同步请求");
@@ -75,7 +81,28 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 		case 0:
 			onTest1Click();
 			break;
-
+		case 1:
+			try {
+				onTest2Click();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			onTest4Click();
+			break;
+		case 3:
+			onTest3Click();
+			break;
+		case 5:
+			try {
+				onTest5Click();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
 		default:
 			break;
 		}
@@ -226,18 +253,22 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
     }
 	
 	// 添加到下载列表
-    private void onTest3Click(View view)   {
+    private void onTest3Click()   {
         for (int i = 0; i < 5; i++) {
-            String url = "";
+            String url = "http://file.bmob.cn/M02/D8/C4/oYYBAFZi4RGAY665AABEZ2jphKw911.png";
             String label = i + "xUtils_" + System.nanoTime();
-//            DownloadService.getDownloadManager().startDownload(url, label,"/sdcard/xUtils/" + label + ".aar", true, false, null);
+            try {
+				DownloadService.getDownloadManager().startDownload(url, label,"/sdcard/xUtils/" + label + ".png", true, false, null);
+			} catch (DbException e) {
+				e.printStackTrace();
+			}
         }
     }
     
     /**
      * 缓存示例, 更复杂的例子参考 {@link org.xutils.image.ImageLoader}
      */
-    private void onTest5Click(View view) throws FileNotFoundException {
+    private void onTest5Click() throws FileNotFoundException {
     	BaiduParams params = new BaiduParams();
         params.wd = "xUtils";
         // 默认缓存存活时间, 单位:毫秒.(如果服务没有返回有效的max-age或Expires)

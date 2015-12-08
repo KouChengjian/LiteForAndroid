@@ -15,6 +15,7 @@ import com.liteutil.http.request.RequestParams;
 import com.liteutil.http.task.PriorityExecutor;
 import com.liteutil.orm.db.DataBase;
 import com.liteutil.orm.db.assit.QueryBuilder;
+import com.liteutil.util.Log;
 
 /**
  * Author: wyouflf
@@ -45,6 +46,7 @@ public final class DownloadManager {
                 downloadInfoList.add(info);
             }
         }   
+        Log.e("downloadInfoList.size",downloadInfoList.size()+"====");
     }
 
     public static DownloadManager getInstance() {
