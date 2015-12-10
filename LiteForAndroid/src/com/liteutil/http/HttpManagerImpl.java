@@ -6,8 +6,10 @@ import java.util.HashMap;
 import android.text.TextUtils;
 
 import com.liteutil.http.listener.Callback;
+import com.liteutil.http.listener.Callback.CommonCallback;
 import com.liteutil.http.request.RequestParams;
 import com.liteutil.http.task.HttpTask;
+import com.liteutil.util.Log;
 
 /**
  * @ClassName: HttpManagerImpl
@@ -120,6 +122,13 @@ public final class HttpManagerImpl implements HttpManager {
         return requestSync(HttpMethod.POST, entity, resultType);
     }
 
+    @Override
+	public <T> T requestSync(HttpMethod method, RequestParams entity,CommonCallback<T> callback) throws Throwable {
+    	 entity.setMethod(method);
+         HttpTask<T> task = new HttpTask<T>(entity, null, callback);
+         return LiteHttp.task().startSync(task);
+	}
+    
     /**
      * 同步请求
      */
@@ -145,7 +154,9 @@ public final class HttpManagerImpl implements HttpManager {
         }
 
         @Override
-        public void onSuccess(T result) {}
+        public void onSuccess(T result) {
+        	Log.e("2","2"+getResultType().toString());
+        }
 
         @Override
         public void onError(Throwable ex, boolean isOnCallback) {}
@@ -156,4 +167,5 @@ public final class HttpManagerImpl implements HttpManager {
         @Override
         public void onFinished() {}
     }
+
 }

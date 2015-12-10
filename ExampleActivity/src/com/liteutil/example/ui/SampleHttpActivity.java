@@ -16,15 +16,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.liteutil.http.*;
+import com.liteutil.async.AsyncTask;
 import com.liteutil.example.DownloadService;
 import com.liteutil.example.http.BaiduParams;
 import com.liteutil.example.http.download.DownloadActivity;
 import com.liteutil.exception.DbException;
 import com.liteutil.exception.HttpException;
+import com.liteutil.http.HttpMethod;
+import com.liteutil.http.LiteHttp;
 import com.liteutil.http.listener.Callback;
 import com.liteutil.http.listener.Callback.CommonCallback;
 import com.liteutil.http.request.RequestParams;
+import com.liteutil.util.Log;
 
 /**
  * @ClassName: SampleHttpActivity
@@ -54,11 +57,12 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 	
 	private List<String> getData() {
 		List<String> data = new ArrayList<String>();
-		data.add("1. 请求");
-		data.add("2. 上传");
-		data.add("3. 下载界面");
-		data.add("4. 下载");
-//		data.add("0. 快速配置");
+		data.add("0. 异步请求");
+		data.add("1. 上传");
+		data.add("2. 下载界面");
+		data.add("3. 下载");
+		data.add("4. 缓存");
+		data.add("5. 同步请求");
 //		data.add("1. 异步请求");
 //		data.add("2. 同步请求");
 //		data.add("3. 简单同步请求");
@@ -77,6 +81,7 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 	}
 	
 	private void clickTestItem(final int which) {
+		Log.e("TAG",which+"=================");
 		switch (which) {
 		case 0:
 			onTest1Click();
@@ -95,11 +100,17 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 		case 3:
 			onTest3Click();
 			break;
-		case 5:
+		case 4:
 			try {
 				onTest5Click();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 5:
+			try {
+				requestSync();
+			} catch (Throwable e) {
 				e.printStackTrace();
 			}
 			break;
@@ -190,7 +201,7 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 				
 			}
         });
-//        cancelable.cancel(); // 取消s
+//        cancelable.cancel(); // 取消
         // 如果需要记录请求的日志, 可使用RequestTracker接口(优先级依次降低, 找到一个实现后会忽略后面的):
         // 1. 自定义Callback同时实现RequestTracker接口;
         // 2. 自定义ResponseParser同时实现RequestTracker接口;
@@ -254,11 +265,11 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 	
 	// 添加到下载列表
     private void onTest3Click()   {
-        for (int i = 0; i < 5; i++) {
-            String url = "http://file.bmob.cn/M02/D8/C4/oYYBAFZi4RGAY665AABEZ2jphKw911.png";
+        for (int i = 0; i < 1; i++) {
+            String url = "http://v.iask.com/v_play_ipad.php?vid=95239034";
             String label = i + "xUtils_" + System.nanoTime();
             try {
-				DownloadService.getDownloadManager().startDownload(url, label,"/sdcard/xUtils/" + label + ".png", true, false, null);
+				DownloadService.getDownloadManager().startDownload(url, label,"/sdcard/xUtils/" + label + ".mp4", true, false, null);
 			} catch (DbException e) {
 				e.printStackTrace();
 			}
@@ -334,4 +345,75 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
         	
         });
     }
+    
+    public void requestSync()throws Throwable{
+    	Log.e("0","0");
+    	
+    	
+    	
+    	
+    	RequestParams params = new RequestParams("https://www.baidu.com");
+//        Callback.Cancelable cancelable = 
+//			LiteHttp.http().requestSync(HttpMethod.GET,params, String.class);
+			
+			AreaAsyncTask AreaAsyncTask = new AreaAsyncTask();
+			AreaAsyncTask.execute("");
+//			LiteHttp.http().requestSync(HttpMethod.GET,params, String.class);
+			
+			
+    }
+    
+    public class AreaAsyncTask extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			RequestParams params1 = new RequestParams("https://www.baidu.com");
+				try {
+					LiteHttp.http().requestSync(HttpMethod.GET,params1, String.class);
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				try {
+					LiteHttp.http().requestSync(HttpMethod.GET,params1,new CommonCallback<String>() {
+
+						@Override
+						public void onSuccess(String result) {
+							Log.e("3","3");
+						}
+
+						@Override
+						public void onError(Throwable ex, boolean isOnCallback) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onCancelled(CancelledException cex) {
+							// TODO Auto-generated method stub
+							
+						}
+
+						@Override
+						public void onFinished() {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+				} catch (Throwable e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					LiteHttp.http().requestSync(HttpMethod.GET,params1, String.class);
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			return null;
+		}
+		
+	}
 }
