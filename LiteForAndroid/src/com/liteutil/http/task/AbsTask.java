@@ -7,8 +7,6 @@ import java.util.concurrent.Executor;
 /**
  * @ClassName: AbsTask<ResultType>
  * @Description: 异步任务基类
- * @author:
- * @date:
  */
 public abstract class AbsTask<ResultType> implements Callback.Cancelable {
 

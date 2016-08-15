@@ -19,17 +19,17 @@ public enum DownloadState {
     public static DownloadState valueOf(int value) {
         switch (value) {
             case 0:
-                return WAITING;
+                return WAITING; // 等待
             case 1:
-                return STARTED;
+                return STARTED; // 开始
             case 2:
-                return FINISHED;
+                return FINISHED; // 结束
             case 3:
-                return STOPPED;
+                return STOPPED; // 停止
             case 4:
-                return ERROR;
+                return ERROR; // 错误
             default:
-                return STOPPED;
+                return STOPPED; // 停止
         }
     }
 }

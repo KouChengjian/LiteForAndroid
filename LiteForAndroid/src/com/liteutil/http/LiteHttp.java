@@ -9,20 +9,20 @@ import com.liteutil.http.task.TaskControllerImpl;
 import android.content.Context;
 
 /**
- * @ClassName: 
+ * @ClassName: LiteHttp
  * @Description: 
  * @author: 
  * @date: 
  */
 public class LiteHttp {
 
-	private static HttpManagerImpl httpManagerImpl;
-	private static TaskControllerImpl taskController;
 	private static Context mContext;
+	private static HttpManagerImpl httpManagerImpl;   // http请求管理
+	private static TaskControllerImpl taskController; // 异步任务管理
 
 	public LiteHttp(Context context) {
 		mContext = context;
-		httpManagerImpl = HttpManagerImpl.registerInstance();
+		httpManagerImpl = HttpManagerImpl.registerInstance(); 
 		taskController = TaskControllerImpl.registerInstance();
 		// 默认信任所有https域名
 		HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {

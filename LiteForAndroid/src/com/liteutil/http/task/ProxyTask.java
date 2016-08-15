@@ -12,8 +12,6 @@ import android.os.Message;
 /**
  * @ClassName: ProxyTask<ResultType>
  * @Description: 异步任务的代理类(仅在task包内可用)
- * @author: 
- * @date: 
  */
 public class ProxyTask<ResultType> extends AbsTask<ResultType> {
 

@@ -63,15 +63,6 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener{
 		data.add("3. 下载");
 		data.add("4. 缓存");
 		data.add("5. 同步请求");
-//		data.add("1. 异步请求");
-//		data.add("2. 同步请求");
-//		data.add("3. 简单同步请求");
-//		data.add("4. 抛出异常请求");
-//		data.add("9. 文件上传");
-//		data.add("10. 文件/图片下载");
-//		data.add("11. 禁止一些网络访问");
-//		data.add("20. 多缓存机制");
-//		data.add("21. 回调机制");
 		return data;
 	}
 	

@@ -67,7 +67,7 @@ public class RequestParams {
     private boolean asJsonContent = false; // 用json形式的bodyParams上传
     private Executor executor; // 自定义线程池
     private Priority priority = Priority.DEFAULT; // 请求优先级
-    private int connectTimeout = 1000 * 15; // 连接超时时间
+    private int connectTimeout = 1000 * 10; // 连接超时时间
     private boolean autoResume = true; // 是否在下载是自动断点续传
     private boolean autoRename = false; // 是否根据头信息自动命名文件
     private int maxRetryCount = 2; // 最大请求错误重试次数

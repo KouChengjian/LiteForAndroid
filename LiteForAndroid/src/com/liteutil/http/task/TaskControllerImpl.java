@@ -17,20 +17,16 @@ public final class TaskControllerImpl implements TaskController {
 
     private static TaskControllerImpl instance;
 
-    public static TaskControllerImpl registerInstance()
-    {
-        if (instance == null) 
-        {
-            synchronized (TaskController.class) 
-            {
-                if (instance == null) 
-                {
-                    instance = new TaskControllerImpl();
-                }
-            }
-        }
-        return instance;
-    }
+	public static TaskControllerImpl registerInstance() {
+		if (instance == null) {
+			synchronized (TaskController.class) {
+				if (instance == null) {
+					instance = new TaskControllerImpl();
+				}
+			}
+		}
+		return instance;
+	}
 
     /**
      * 开始一个异步任务

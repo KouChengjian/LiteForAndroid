@@ -29,7 +29,6 @@ public final class DownloadManager {
     private final static int MAX_DOWNLOAD_THREAD = 2; // 有效的值范围[1, 3], 设置为3时, 可能阻塞图片加载.
 
     private DataBase db1;
-//    private final DbManager db;
     private final Executor executor = new PriorityExecutor(MAX_DOWNLOAD_THREAD);
     private final List<DownloadInfo> downloadInfoList = new ArrayList<DownloadInfo>();
     private final ConcurrentHashMap<DownloadInfo, DownloadCallback>

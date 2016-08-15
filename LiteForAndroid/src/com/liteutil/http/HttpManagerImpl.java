@@ -13,9 +13,7 @@ import com.liteutil.util.Log;
 
 /**
  * @ClassName: HttpManagerImpl
- * @Description: HttpManager实现
- * @author: 
- * @date: 
+ * @Description: Http请求接口
  */
 public final class HttpManagerImpl implements HttpManager {
 
@@ -25,19 +23,16 @@ public final class HttpManagerImpl implements HttpManager {
 
     private HttpManagerImpl() {}
 
-    public static HttpManagerImpl registerInstance() {
-        if (instance == null) 
-        {
-            synchronized (lock) 
-            {
-                if (instance == null) 
-                {
-                    instance = new HttpManagerImpl();
-                }
-            }
-        }
-        return instance;
-    }
+	public static HttpManagerImpl registerInstance() {
+		if (instance == null) {
+			synchronized (lock) {
+				if (instance == null) {
+					instance = new HttpManagerImpl();
+				}
+			}
+		}
+		return instance;
+	}
 
     /**
      * 异步GET请求

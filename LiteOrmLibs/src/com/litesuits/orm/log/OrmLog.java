@@ -11,7 +11,7 @@ public final class OrmLog {
 	public static boolean isPrint = false;
 	private static String defaultTag = "OrmLog";
 
-	private OrmLog() {}
+	private OrmLog() {}  
 
 	public static void setTag(String tag) {
 		OrmLog.defaultTag = tag;
@@ -23,7 +23,7 @@ public final class OrmLog {
 
 	public static int i(String m) {
 		return isPrint && m != null ? android.util.Log.i(defaultTag, m) : -1;
-	}
+	}    
 
 	/*********************** Log ***************************/
 	public static int v(String tag, String msg) {

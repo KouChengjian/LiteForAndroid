@@ -484,34 +484,25 @@ public class SampleHttpActivity extends Activity implements OnItemClickListener 
 			upProgress.setIndeterminate(false);
 			upProgress.show();
 
-			StringRequest uploadRequest = new StringRequest(uploadUrl);
-
-			uploadRequest
-					.setMethod(HttpMethods.Post)
-					.setHttpBody(new FileBody(new File("/sdcard/aaa.jpg")))
-					.setHttpListener(
-							new HttpListener<String>(true, false, true) {
+			StringRequest uploadRequest = new StringRequest("http://yueka.wcphp.com/alterAvatar");
+			uploadRequest.addHeader("uid", 1158+"");
+			uploadRequest.setHttpBody(new FileBody(new File("/sdcard/aaa.jpg")));
+			uploadRequest.setMethod(HttpMethods.Post).setHttpListener(new HttpListener<String>(true, false, true) {
 								@Override
-								public void onSuccess(String s,
-										Response<String> response) {
+								public void onSuccess(String s,Response<String> response) {
 									upProgress.dismiss();
-									HttpUtil.showTips(activity,
-											"Upload Success", s);
+									HttpUtil.showTips(activity,"Upload Success", s);
 									response.printInfo();
 								}
 
 								@Override
-								public void onFailure(HttpException e,
-										Response<String> response) {
+								public void onFailure(HttpException e,Response<String> response) {
 									upProgress.dismiss();
-									HttpUtil.showTips(activity,
-											"Upload Failed", e.toString());
+									HttpUtil.showTips(activity,"Upload Failed", e.toString());
 								}
 
 								@Override
-								public void onUploading(
-										AbstractRequest<String> request,
-										long total, long len) {
+								public void onUploading(AbstractRequest<String> request,long total, long len) {
 									upProgress.setMax((int) total);
 									upProgress.setProgress((int) len);
 								}

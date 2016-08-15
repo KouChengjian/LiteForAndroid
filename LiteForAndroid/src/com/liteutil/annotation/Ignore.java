@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
  * @author mty
  * @date 2013-6-2下午8:10:13
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.FIELD) // 域声明
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Ignore {}
