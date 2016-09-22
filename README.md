@@ -1,7 +1,7 @@
 # easyforandroid 简介
-* ORM  
-* Http
+* orm 
+* http
 
-##Http：
-##Orm：
+##http：
+##orm：
 
