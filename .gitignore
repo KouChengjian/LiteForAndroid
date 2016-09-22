@@ -25,3 +25,7 @@ proguard/
 
 # Log Files
 *.log
+
+LiteForAndroid/.apt_generated
+ExampleActivity/.apt_generated
+easyforandroid/.apt_generated
