@@ -1,21 +1,9 @@
 package com.easy;
 
-import android.content.Context;
-
 public class EasyConfig {
-	
-	private static Context mContext;
-	private static boolean debug = true;
-	
-	public static void init(Context context){
-		mContext = context;
-	}
-	
-	public static boolean isDebug() {
-		return debug;
-	}
 
-	public static Context getContext() {
-		return mContext;
-	}
+	public static final boolean debug = true;
+	public static final String DEFAULT_DB_NAME = "easyorm.db";
+    public static final int DEFAULT_DB_VERSION = 1;
+    
 }
