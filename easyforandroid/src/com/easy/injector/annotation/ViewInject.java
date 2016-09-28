@@ -1,14 +1,15 @@
-package com.easy.db.annotation;
+package com.easy.injector.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * 临时性
- */
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Temporary {
+public @interface ViewInject {
+
+    int value();
+    /* parent view id */
+    int parentId() default 0;
 }

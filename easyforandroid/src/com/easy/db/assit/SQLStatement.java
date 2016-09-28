@@ -34,14 +34,17 @@ public class SQLStatement implements Serializable {
     public static final short NONE = -1;
     public static final short NORMAL = 0;
     public static final int IN_TOP_LIMIT = 999;
+    
     /**
      * sql语句
      */
     public String sql;
+    
     /**
      * sql语句中占位符对应的参数
      */
     public Object[] bindArgs;
+    
     /**
      * sql语句执行者，私有(private)。
      */

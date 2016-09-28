@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 /**
  * 辅助查询
- *
- * @author MaTianyu
- * @date 2013-6-15下午11:11:02
  */
 public class Querier {
     private static final String TAG = Querier.class.getSimpleName();

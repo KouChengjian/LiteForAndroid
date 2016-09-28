@@ -36,10 +36,12 @@ public final class TableManager {
 	
 	private static final String TAG = TableManager.class.getSimpleName();
     private static final String ID[] = new String[]{"id", "_id"};
+    
     /**
      * 数据库表信息
      */
     private String dbName = "";
+    
     /**
      * 这里放的是数据库表信息（表名、字段、建表语句...）
      * 每个数据库对应一个
@@ -125,13 +127,13 @@ public final class TableManager {
     public boolean isSQLMapTableCreated(String tableName1, String tableName2) {
         return mSqlTableMap.get(getMapTableName(tableName1, tableName2)) != null;
     }
-//
-//    /**
-//     * 仅仅检测[数据库表]是否建立
-//     */
-//    public boolean isSQLTableCreated(String tableName) {
-//        return mSqlTableMap.get(tableName) != null;
-//    }
+
+    /**
+     * 仅仅检测[数据库表]是否建立
+     */
+    public boolean isSQLTableCreated(String tableName) {
+        return mSqlTableMap.get(tableName) != null;
+    }
 
     /**
      * 检查表是否存在，存在的话检查是否需要改动，添加列字段。
@@ -219,13 +221,14 @@ public final class TableManager {
     }
 
     /**
-     * 初始化全部表及其列名,初始化失败，则无法进行下去。
+     * 初始化全部表及其列名，初始化失败，则无法进行下去。
      */
-    private void initAllTablesFromSQLite(SQLiteDatabase db) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void initAllTablesFromSQLite(SQLiteDatabase db) {
         synchronized (mSqlTableMap) {
             if (Checker.isEmpty(mSqlTableMap)) {
                 if (EasyLog.isPrint) {
-                	EasyLog.i(TAG, "Initialize SQL table start--------------------->");
+                	EasyLog.e(TAG, "Initialize SQL table start--------------------->");
                 }
                 SQLStatement st = SQLBuilder.buildTableObtainAll();
                 final EntityTable table = getTable(SQLiteTable.class, false);
@@ -398,7 +401,7 @@ public final class TableManager {
         if (table == null) {
             table = new EntityTable();
             table.claxx = claxx;
-            table.name = getTableName(claxx);
+            table.name = getTableName(claxx); // 获取注解tab名称
             table.pmap = new LinkedHashMap<String, Property>();
             List<Field> fields = FieldUtil.getAllDeclaredFields(claxx);
             for (Field f : fields) {

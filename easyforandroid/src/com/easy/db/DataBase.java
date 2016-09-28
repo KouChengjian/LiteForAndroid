@@ -4,6 +4,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import com.easy.db.assit.SQLiteHelper;
+
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -30,7 +33,7 @@ public interface DataBase {
      *
      * @return the number of affected rows
      */
-//    <T> int save(Collection<T> collection);
+    <T> int save(Collection<T> collection);
 
     /**
      * insert a single entity
@@ -254,27 +257,27 @@ public interface DataBase {
     /**
      * get readable database
      */
-//    SQLiteDatabase getReadableDatabase();
+    SQLiteDatabase getReadableDatabase();
 
     /**
      * get writable database
      */
-//    SQLiteDatabase getWritableDatabase();
+    SQLiteDatabase getWritableDatabase();
 
     /**
      * get {@link TableManager}
      */
-//    TableManager getTableManager();
+    TableManager getTableManager();
 
     /**
      * get {@link SQLiteHelper}
      */
-//    SQLiteHelper getSQLiteHelper();
+    SQLiteHelper getSQLiteHelper();
 
     /**
      * get {@link DataBaseConfig}
      */
-//    DataBaseConfig getDataBaseConfig();
+    DataBaseConfig getDataBaseConfig();
 
     /**
      * if database in sdcard , you will need this  in manifest:

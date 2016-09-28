@@ -3,9 +3,7 @@ package com.easy.db;
 import com.easy.EasyConfig;
 import com.easy.db.assit.Checker;
 import com.easy.db.assit.SQLiteHelper.OnUpdateListener;
-
 import android.content.Context;
-
 
 /**
  * 数据操作配置
@@ -19,11 +17,11 @@ public class DataBaseConfig {
     
     
     public DataBaseConfig(Context context) {
-        this(context, EasyConfig.DEFAULT_DB_NAME);
+        this(context , EasyConfig.DEFAULT_DB_NAME);
     }
 
     public DataBaseConfig(Context context, String dbName) {
-        this(context, dbName, EasyConfig.DEFAULT_DB_VERSION, null);
+        this(context , dbName, EasyConfig.DEFAULT_DB_VERSION, null);
     }
     
     public DataBaseConfig(Context context, String dbName, int dbVersion, OnUpdateListener onUpdateListener) {
