@@ -36,7 +36,7 @@ public class SQLBuilder {
     public static final int TYPE_REPLACE = 2;
     public static final int TYPE_UPDATE = 3;
     public static final String DELETE_FROM = "DELETE FROM ";
-    public static final String SELECT_TABLES = "SELECT * FROM sqlite_master WHERE type='table' ORDER BY name";
+    public static final String SELECT_TABLES = "SELECT * FROM sqlite_master WHERE type='table' ORDER BY name"; // 要获得数据库中所有表的列表
     public static final String PRAGMA_TABLE_INFO = "PRAGMA table_info(";
     public static final String PARENTHESES_LEFT = "(";
     public static final String PARENTHESES_RIGHT = ")";

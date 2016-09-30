@@ -1,4 +1,4 @@
-package com.easy.common.bean;
+package com.easy.http.app;
 
 
 public class KeyValue {

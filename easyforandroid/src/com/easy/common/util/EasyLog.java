@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.easy.Easy;
+import com.easy.EasyConfig;
 
 
 /**
@@ -15,7 +16,7 @@ import com.easy.Easy;
  */
 public class EasyLog {
 
-	public static boolean isPrint = true;
+	public static boolean isPrint = EasyConfig.debug;
     public static String customTagPrefix = "easy_log";
 
     private EasyLog() {

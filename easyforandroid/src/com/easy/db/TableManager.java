@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.easy.common.util.EasyLog;
 import com.easy.db.annotation.Column;
@@ -92,7 +93,8 @@ public final class TableManager {
     /**
      * 检测[数据库表]是否建立，没有则建一张新表。
      */
-    public synchronized EntityTable checkOrCreateTable(SQLiteDatabase db, Class claxx) {
+    @SuppressWarnings("rawtypes")
+	public synchronized EntityTable checkOrCreateTable(SQLiteDatabase db, Class claxx) {
         // 关键点1：获取[实体表]
         EntityTable table = getTable(claxx);
         // 关键点2: 判断[数据库表]是否存在，是否需要新加列。
@@ -228,8 +230,9 @@ public final class TableManager {
         synchronized (mSqlTableMap) {
             if (Checker.isEmpty(mSqlTableMap)) {
                 if (EasyLog.isPrint) {
-                	EasyLog.e(TAG, "Initialize SQL table start--------------------->");
+                	EasyLog.i(TAG, "Initialize SQL table start--------------------->");
                 }
+                // sql : SELECT * FROM sqlite_master WHERE type='table' ORDER BY name
                 SQLStatement st = SQLBuilder.buildTableObtainAll();
                 final EntityTable table = getTable(SQLiteTable.class, false);
                 Querier.doQuery(db, st, new Querier.CursorParser() {
@@ -292,7 +295,8 @@ public final class TableManager {
      * 数据库分析
      * 通过读数据库得到一张表的全部列名
      */
-    public ArrayList<String> getAllColumnsFromSQLite(SQLiteDatabase db, final String tableName) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public ArrayList<String> getAllColumnsFromSQLite(SQLiteDatabase db, final String tableName) {
         final EntityTable table = getTable(SQLiteColumn.class, false);
         final ArrayList<String> list = new ArrayList<String>();
 
@@ -402,8 +406,10 @@ public final class TableManager {
             table = new EntityTable();
             table.claxx = claxx;
             table.name = getTableName(claxx); // 获取注解tab名称
+            Log.e("table.name", table.name+"");
             table.pmap = new LinkedHashMap<String, Property>();
             List<Field> fields = FieldUtil.getAllDeclaredFields(claxx);
+            Log.e("fields", fields.size()+"");
             for (Field f : fields) {
                 if (FieldUtil.isInvalid(f)) {
                     continue;
@@ -414,10 +420,10 @@ public final class TableManager {
                 String column = col != null ? col.value() : f.getName();
                 Property p = new Property(column, f);
 
-
                 // 主键判断
                 PrimaryKey key = f.getAnnotation(PrimaryKey.class);
                 if (key != null) {
+                	Log.e("setp", "1");
                     // 主键不加入属性Map
                     table.key = new Primarykey(p, key.value());
                     // 主键为系统分配,对类型有要求
@@ -426,8 +432,10 @@ public final class TableManager {
                     //ORM handle
                     Mapping mapping = f.getAnnotation(Mapping.class);
                     if (mapping != null) {
+                    	Log.e("setp", "2");
                         table.addMapping(new MapProperty(p, mapping.value()));
                     } else {
+                    	Log.e("setp", "3");
                         table.pmap.put(p.column, p);
                     }
                 }
@@ -456,6 +464,7 @@ public final class TableManager {
                     }
                 }
             }
+            
             if (needPK && table.key == null) {
                 throw new RuntimeException(
                         "你必须为[" + table.claxx.getSimpleName() + "]设置主键(you must set the primary key...)" +
@@ -500,7 +509,8 @@ public final class TableManager {
         }
     }
 
-    public static String getMapTableName(Class c1, Class c2) {
+    @SuppressWarnings("rawtypes")
+	public static String getMapTableName(Class c1, Class c2) {
         return getMapTableName(getTableName(c1), getTableName(c2));
     }
 
