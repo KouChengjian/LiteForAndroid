@@ -1,12 +1,11 @@
 package com.easyutils.http.task;
 
 /**
- * Created by wyouflf on 15/6/5.
  * 带有优先级的Runnable类型(仅在task包内可用)
  */
-/*package*/ class PriorityRunnable implements Runnable {
+class PriorityRunnable implements Runnable {
 
-    /*package*/ long SEQ;
+    long SEQ;
 
     public final Priority priority;
     private final Runnable runnable;

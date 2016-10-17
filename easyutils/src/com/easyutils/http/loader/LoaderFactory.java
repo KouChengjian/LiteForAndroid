@@ -4,16 +4,10 @@ package com.easyutils.http.loader;
 import java.io.File;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import com.easyutils.http.RequestParams;
 
-/**
- * Author: wyouflf
- * Time: 2014/05/26
- */
 public final class LoaderFactory {
 
     private LoaderFactory() {
@@ -22,7 +16,8 @@ public final class LoaderFactory {
     /**
      * key: loadType
      */
-    private static final HashMap<Type, Loader> converterHashMap = new HashMap<Type, Loader>();
+    @SuppressWarnings("rawtypes")
+	private static final HashMap<Type, Loader> converterHashMap = new HashMap<Type, Loader>();
 
     static {
         converterHashMap.put(JSONObject.class, new JSONObjectLoader());

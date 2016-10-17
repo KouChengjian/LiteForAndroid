@@ -566,25 +566,31 @@ public class HttpTask<ResultType> extends AbsTask<ResultType> implements Progres
      * 并辅助限制同时下载文件的线程数.
      */
     private final class RequestWorker {
-        /*private*/ Object result;
-        /*private*/ Throwable ex;
+        Object result;
+        Throwable ex;
 
-        private RequestWorker() {
-        }
+        private RequestWorker() {}
 
         public void request() {
             try {
                 boolean interrupted = false;
-                if (File.class == loadType) {
-                    while (sCurrFileLoadCount.get() >= MAX_FILE_LOAD_WORKER
-                            && !HttpTask.this.isCancelled()) {
-                        synchronized (sCurrFileLoadCount) {
-                            try {
+                if (File.class == loadType) 
+                {
+                    while (sCurrFileLoadCount.get() >= MAX_FILE_LOAD_WORKER && !HttpTask.this.isCancelled()) 
+                    {
+                        synchronized (sCurrFileLoadCount) 
+                        {
+                            try 
+                            {
                                 sCurrFileLoadCount.wait(10);
-                            } catch (InterruptedException iex) {
+                            } 
+                            catch (InterruptedException iex) 
+                            {
                                 interrupted = true;
                                 break;
-                            } catch (Throwable ignored) {
+                            } 
+                            catch (Throwable ignored)
+                            {
                             }
                         }
                     }
@@ -605,18 +611,26 @@ public class HttpTask<ResultType> extends AbsTask<ResultType> implements Progres
                 if (this.ex != null) {
                     throw this.ex;
                 }
-            } catch (Throwable ex) {
+            } 
+            catch (Throwable ex) 
+            {
                 this.ex = ex;
-                if (ex instanceof HttpException) {
+                if (ex instanceof HttpException)
+                {
                     HttpException httpEx = (HttpException) ex;
                     int errorCode = httpEx.getCode();
-                    if (errorCode == 301 || errorCode == 302) {
+                    if (errorCode == 301 || errorCode == 302) 
+                    {
                         RedirectHandler redirectHandler = params.getRedirectHandler();
-                        if (redirectHandler != null) {
-                            try {
+                        if (redirectHandler != null) 
+                        {
+                            try 
+                            {
                                 RequestParams redirectParams = redirectHandler.getRedirectParams(request);
-                                if (redirectParams != null) {
-                                    if (redirectParams.getMethod() == null) {
+                                if (redirectParams != null) 
+                                {
+                                    if (redirectParams.getMethod() == null) 
+                                    {
                                         redirectParams.setMethod(params.getMethod());
                                     }
                                     // 开始重定向请求
@@ -624,7 +638,9 @@ public class HttpTask<ResultType> extends AbsTask<ResultType> implements Progres
                                     HttpTask.this.request = createNewRequest();
                                     this.ex = new HttpRedirectException(errorCode, httpEx.getMessage(), httpEx.getResult());
                                 }
-                            } catch (Throwable throwable) {
+                            } 
+                            catch (Throwable throwable) 
+                            {
                                 this.ex = ex;
                             }
                         }

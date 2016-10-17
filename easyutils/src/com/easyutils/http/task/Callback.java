@@ -3,7 +3,6 @@ package com.easyutils.http.task;
 import java.lang.reflect.Type;
 
 /**
- * Created by wyouflf on 15/6/5.
  * 通用回调接口
  */
 public interface Callback {

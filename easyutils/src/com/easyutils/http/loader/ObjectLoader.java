@@ -22,7 +22,7 @@ import com.easyutils.http.utils.ParameterizedTypeUtil;
  * 其他对象的下载转换.
  * 使用类型上的@HttpResponse注解信息进行数据转换.
  */
-/*package*/ class ObjectLoader extends Loader<Object> {
+public class ObjectLoader extends Loader<Object> {
 
     private String charset = "UTF-8";
     private String resultStr = null;

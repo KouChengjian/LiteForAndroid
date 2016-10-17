@@ -128,7 +128,7 @@ public class ViewInjector {
 		// 从父类到子类递归
         injectObject(handler, handlerType.getSuperclass(), finder);
         // inject view
-        Field[] fields = handlerType.getDeclaredFields(); // 获取私有的
+        Field[] fields = handlerType.getDeclaredFields(); 
         if (fields != null && fields.length > 0) {
             for (Field field : fields) {
 

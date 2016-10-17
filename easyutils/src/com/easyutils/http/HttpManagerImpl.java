@@ -65,7 +65,7 @@ public final class HttpManagerImpl implements HttpManager {
     }
 
     @Override
-    public <T> T requestSync(HttpMethod method, RequestParams entity, Callback.TypedCallback<T> callback) throws Throwable {
+    public <T> T requestSync(HttpMethod method, RequestParams entity, Callback.CommonCallback<T> callback) throws Throwable {
         entity.setMethod(method);
         HttpTask<T> task = new HttpTask<T>(entity, null, callback);
         return Easy.task().startSync(task);

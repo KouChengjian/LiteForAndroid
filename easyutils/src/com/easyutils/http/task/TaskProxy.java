@@ -24,7 +24,7 @@ public class TaskProxy<ResultType> extends AbsTask<ResultType> {
     private volatile boolean callOnCanceled = false;
     private volatile boolean callOnFinished = false;
 
-    TaskProxy(AbsTask<ResultType> task) {
+    public TaskProxy(AbsTask<ResultType> task) {
         super(task);
         this.task = task;
         this.task.setTaskProxy(this);
@@ -148,12 +148,12 @@ public class TaskProxy<ResultType> extends AbsTask<ResultType> {
     }
 
     private final static int MSG_WHAT_BASE = 1000000000;
-    private final static int MSG_WHAT_ON_WAITING = MSG_WHAT_BASE + 1; // 等待
-    private final static int MSG_WHAT_ON_START = MSG_WHAT_BASE + 2; // 开始
-    private final static int MSG_WHAT_ON_SUCCESS = MSG_WHAT_BASE + 3; // 成功
-    private final static int MSG_WHAT_ON_ERROR = MSG_WHAT_BASE + 4; // 错误
-    private final static int MSG_WHAT_ON_UPDATE = MSG_WHAT_BASE + 5; // 更新
-    private final static int MSG_WHAT_ON_CANCEL = MSG_WHAT_BASE + 6; // 取消
+    private final static int MSG_WHAT_ON_WAITING  = MSG_WHAT_BASE + 1; // 等待
+    private final static int MSG_WHAT_ON_START    = MSG_WHAT_BASE + 2; // 开始
+    private final static int MSG_WHAT_ON_SUCCESS  = MSG_WHAT_BASE + 3; // 成功
+    private final static int MSG_WHAT_ON_ERROR    = MSG_WHAT_BASE + 4; // 错误
+    private final static int MSG_WHAT_ON_UPDATE   = MSG_WHAT_BASE + 5; // 更新
+    private final static int MSG_WHAT_ON_CANCEL   = MSG_WHAT_BASE + 6; // 取消
     private final static int MSG_WHAT_ON_FINISHED = MSG_WHAT_BASE + 7; // 完成
 
     final static class InternalHandler extends Handler {

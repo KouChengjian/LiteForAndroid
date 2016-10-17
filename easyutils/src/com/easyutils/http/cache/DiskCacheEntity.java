@@ -4,7 +4,6 @@ package com.easyutils.http.cache;
 import java.util.Date;
 
 /**
- * Created by wyouflf on 15/8/2.
  * 磁盘缓存对象
  */
 public final class DiskCacheEntity {

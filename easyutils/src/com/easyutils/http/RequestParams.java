@@ -81,7 +81,7 @@ public class RequestParams extends BaseParams {
     }
 
     // invoke via HttpTask#createNewRequest
-    /*package*/ void init() throws Throwable {
+    void init() throws Throwable {
         if (!TextUtils.isEmpty(buildUri)) return;
 
         if (TextUtils.isEmpty(uri) && getHttpRequest() == null) {
@@ -332,13 +332,14 @@ public class RequestParams extends BaseParams {
 
     /**
      * 自定义重定向接口, 默认系统自动重定向.
-     *
-     * @param redirectHandler
      */
     public void setRedirectHandler(RedirectHandler redirectHandler) {
         this.redirectHandler = redirectHandler;
     }
 
+    /**
+     * 日志追踪
+     */
     public RequestTracker getRequestTracker() {
         return requestTracker;
     }

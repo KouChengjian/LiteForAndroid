@@ -18,7 +18,6 @@ import com.easyutils.http.utils.MD5;
 import com.easyutils.http.utils.ProcessLock;
 
 /**
- * Created by wyouflf on 15/7/23.
  * 使用sqlite索引实现的LruDiskCache
  */
 public final class LruDiskCache {

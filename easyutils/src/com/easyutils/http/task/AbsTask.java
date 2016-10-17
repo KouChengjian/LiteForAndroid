@@ -9,7 +9,8 @@ import java.util.concurrent.Executor;
  */
 public abstract class AbsTask<ResultType> implements Callback.Cancelable {
 
-    private TaskProxy taskProxy = null;
+    @SuppressWarnings("rawtypes")
+	private TaskProxy taskProxy = null;
     private final Callback.Cancelable cancelHandler;
 
     private volatile boolean isCancelled = false;
@@ -112,17 +113,15 @@ public abstract class AbsTask<ResultType> implements Callback.Cancelable {
         return result;
     }
 
-    /*package*/
     void setState(State state) {
         this.state = state;
     }
 
-    /*package*/
-    final void setTaskProxy(TaskProxy taskProxy) {
+    @SuppressWarnings("rawtypes")
+	final void setTaskProxy(TaskProxy taskProxy) {
         this.taskProxy = taskProxy;
     }
 
-    /*package*/
     final void setResult(ResultType result) {
         this.result = result;
     }

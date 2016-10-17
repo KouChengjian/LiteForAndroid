@@ -84,5 +84,5 @@ public interface HttpManager {
      * @return
      * @throws Throwable
      */
-    <T> T requestSync(HttpMethod method, RequestParams entity, Callback.TypedCallback<T> callback) throws Throwable;
+    <T> T requestSync(HttpMethod method, RequestParams entity, Callback.CommonCallback<T> callback) throws Throwable;
 }

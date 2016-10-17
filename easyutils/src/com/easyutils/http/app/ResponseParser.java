@@ -6,7 +6,6 @@ import java.lang.reflect.Type;
 import com.easyutils.http.request.UriRequest;
 
 /**
- * Created by wyouflf on 15/8/4.
  * {@link org.xutils.http.annotation.HttpResponse} 注解的返回值转换模板
  */
 public interface ResponseParser {

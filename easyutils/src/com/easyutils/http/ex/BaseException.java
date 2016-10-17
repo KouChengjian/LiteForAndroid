@@ -17,11 +17,6 @@ package com.easyutils.http.ex;
 
 import java.io.IOException;
 
-/**
- * Author: wyouflf
- * Date: 13-7-24
- * Time: 下午3:00
- */
 public class BaseException extends IOException {
     private static final long serialVersionUID = 1L;
 

@@ -14,21 +14,17 @@ import android.os.Parcelable;
 
 import com.easyutils.http.utils.HttpLog;
 
-/**
- * Created by wyouflf on 16/1/23.
- */
-/*package*/ final class RequestParamsHelper {
+public final class RequestParamsHelper {
 
     private static final ClassLoader BOOT_CL = String.class.getClassLoader();
 
     private RequestParamsHelper() {
     }
 
-    /*package*/ interface ParseKVListener {
+    interface ParseKVListener {
         void onParseKV(String name, Object value);
     }
 
-    /*package*/
     static void parseKV(Object entity, Class<?> type, ParseKVListener listener) {
         if (entity == null || type == null || type == RequestParams.class || type == Object.class) {
             return;

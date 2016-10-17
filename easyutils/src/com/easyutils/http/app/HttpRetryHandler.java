@@ -18,10 +18,6 @@ import com.easyutils.http.request.UriRequest;
 import com.easyutils.http.task.Callback;
 import com.easyutils.http.utils.HttpLog;
 
-/**
- * Author: wyouflf
- * Time: 2014/05/30
- */
 public class HttpRetryHandler {
 
     protected int maxRetryCount = 2;

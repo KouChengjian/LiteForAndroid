@@ -4,7 +4,6 @@ import com.easyutils.http.RequestParams;
 import com.easyutils.http.request.UriRequest;
 
 /**
- * Created by wyouflf on 15/11/12.
  * 请求重定向控制接口
  */
 public interface RedirectHandler {

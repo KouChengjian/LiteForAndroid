@@ -12,7 +12,6 @@ import com.easyutils.http.annotation.HttpRequest;
 import com.easyutils.http.utils.HttpLog;
 
 /**
- * Created by wyouflf on 15/8/20.
  * 默认参数构造器
  */
 public class DefaultParamsBuilder implements ParamsBuilder {
